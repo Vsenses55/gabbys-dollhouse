@@ -86,7 +86,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   justify-content: center;
   min-height: var(--px-60);
   padding: var(--px-14) var(--px-25);
-  border-radius: var(--px-24); /* literal 24 in Figma (not bound to a radius token) */
+  border-radius: var(--radius-sm); /* 24 desktop / 12 mobile */
   background: var(--control-primary);
   color: var(--text-inverse);
   white-space: nowrap;

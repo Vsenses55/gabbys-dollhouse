@@ -29,7 +29,7 @@
   --color-cyan-media: #e0ffff;
   --color-teal-strong: #07929a;
   --color-cyan-tint: #d7fbff;
-  --color-cyan-bright: #3cc9f0;
+  --color-cyan-bright: #099bc3; /* was #3cc9f0 — darkened for contrast (see README) */
   --color-cyan-muted: #c2e8f1;
   --color-blue-strong: #385dab;
   --color-blue-medium: #5171b5;

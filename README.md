@@ -59,9 +59,9 @@ Every section has an `.art` layer (`aria-hidden`, doesn't block clicks). Items a
 
 ## Open items / flags
 
-- **Not built yet: bubble clusters and page-background extras.** These are the `Bubbles`, `ELEMENTS LEFT/RIGHT`, `Bubbles_1`/`Bubbles_2`, cat paws, yellow cathouse and puffy clouds inside the `Bkg` frame. They're complex masked vectors, so the plan is to export each cluster as one image in the next pass.
+- **Contrast:** `cyan-bright` was changed from `#3CC9F0` to `#099BC3`. The play button, cast arrows and the triangle icon were updated to match. White on `#099BC3` is 3.2:1. That passes for large text and UI shapes (3:1) but not for the 16px button labels, which need 4.5:1 for WCAG AA. `#00809F` would give 4.6:1 on white.
 - **Nav type size** is 21px/18px in Figma, which is outside the type scale. It's matched exactly here and flagged.
-- **Watch and Grown-Ups** show a caret, but the design doesn't include their dropdown items. They currently link to sections (marked TODO).
-- **Contrast:** white labels on the cyan button (`#3CC9F0`) measure about 2:1, and cyan captions/overlines on pale panels are also below WCAG AA. The brand tokens are unchanged. This is flagged for a design decision.
+- **Dropdown items** come from the Figma Resources page: Watch = Where to Watch / Videos / Episodes, Fun = 6 items, Grown-Ups = Shop / Partners / Subscribe. On desktop the menus open on hover or click. On smaller screens they open on tap.
+- **Bubbles:** a separate bubble animation will be added later, so the bubble artwork from the Figma background isn't included.
+- **Character carousel:** placeholder cast for now, to be filled in once the character assets arrive.
 - **Image resolution:** assets were exported at 1×. Re-export the content imagery at 2× for retina before final deployment.
-- The Figma asset URLs used to download these files expire after 7 days. Everything is already saved locally in `assets/`.

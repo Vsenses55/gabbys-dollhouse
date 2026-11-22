@@ -53,9 +53,12 @@
 }
 .art__item[style*="--c"] { left: calc(50% + var(--c)); }
 
-/* Anchor art to a panel instead of the section edges */
+/* Anchor art to a panel instead of the section edges.
+   .art inside .panel-wrap sits in front of the panel; add .art--back to tuck it behind. */
 .panel-wrap { position: relative; }
+.panel-wrap > .panel { position: relative; z-index: 1; }
 .panel-wrap > .art { z-index: 2; }
+.panel-wrap > .art--back { z-index: 0; }
 
 /* data-hide levels: laptop ≤1439, stacked ≤1239 (hero stacks, nav collapses),
    tablet ≤1023, mobile ≤767. Each level also hides everything above it. */
@@ -172,6 +175,9 @@
   white-space: nowrap;
 }
 .dropdown[hidden] { display: none; }
+.dropdown::before { /* invisible bridge so hover survives the 12px gap */
+  content: ""; position: absolute; left: 0; right: 0; top: -14px; height: 14px;
+}
 .dropdown a:hover { color: var(--text-primary); text-decoration: underline; text-underline-offset: 4px; }
 
 /* Collapsed navigation (menu bar no longer fits) */
@@ -208,6 +214,7 @@
   }
   .site-header:not(.is-open) .menu-bar { display: none; }
   .nav-link { height: 52px; width: 100%; }
+  .dropdown::before { display: none; }
   .dropdown {
     position: static;
     transform: none;
@@ -222,7 +229,7 @@
    Hero
    ========================================================================== */
 .hero {
-  --bkg: url("../assets/art/bkg-stars.png") center top / max(100%, 1680px) auto no-repeat, var(--bkg-hero);
+  --bkg: var(--bkg-hero);
 }
 .hero__inner {
   --container-max: var(--container-wide);
@@ -400,9 +407,10 @@
 
 @media (max-width: 767px) {
   .video { padding: var(--px-64) 0; }
-  .video-player { border-width: 8px; }
+  .video-player { border-width: 0; }
   .video-player__play { width: 80px; height: 80px; }
-  .video-frame { padding-inline: var(--px-16); }
+  .video-frame { padding: var(--px-16) var(--px-16) var(--px-24); } /* even white frame on all sides */
+  .video-player { border-radius: calc(var(--radius-3xl) - var(--px-16)); } /* nested radius */
 }
 
 /* ==========================================================================
@@ -428,6 +436,7 @@
 }
 .text-link img { width: 8px; height: 12px; }
 .text-link:hover { color: var(--text-primary); }
+@media (max-width: 767px) { .text-link { padding-inline: 0; } }
 
 .panel--wide > .panel__row { width: 100%; display: flex; flex-direction: column; gap: var(--px-24); }
 
@@ -437,7 +446,7 @@
   height: auto;
   aspect-ratio: 392 / 221;
   object-fit: cover;
-  border-radius: var(--px-24); /* literal 24 in Figma */
+  border-radius: var(--radius-sm); /* 24 desktop / 12 mobile */
 }
 .episode-card__body { display: flex; flex-direction: column; align-items: flex-start; gap: var(--px-24); }
 .episode-card__header { display: flex; flex-direction: column; gap: var(--px-12); }

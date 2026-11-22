@@ -36,13 +36,17 @@
           </a>
         </li>
         <li>
-          <!-- TODO: Watch dropdown items aren't in the design yet -->
-          <a class="nav-link" href="#video">
+          <button class="nav-link" type="button" aria-expanded="false" aria-controls="dropdown-watch">
             <img class="nav-link__icon" src="assets/icons/menu-watch.svg" alt="">
             Watch
             <img class="nav-link__caret nav-link__caret--idle" src="assets/icons/caret-blue.svg" alt="">
             <img class="nav-link__caret nav-link__caret--active" src="assets/icons/caret-white.svg" alt="">
-          </a>
+          </button>
+          <ul class="dropdown" id="dropdown-watch" hidden>
+            <li><a href="#">Where to Watch</a></li>
+            <li><a href="#video">Videos</a></li>
+            <li><a href="#episodes">Episodes</a></li>
+          </ul>
         </li>
         <li>
           <a class="nav-link" href="#music">
@@ -73,13 +77,17 @@
           </a>
         </li>
         <li>
-          <!-- TODO: Grown-Ups dropdown items aren't in the design yet -->
-          <a class="nav-link" href="#footer">
+          <button class="nav-link" type="button" aria-expanded="false" aria-controls="dropdown-grownups">
             <img class="nav-link__icon" src="assets/icons/menu-grownups.svg" alt="">
             Grown-Ups
             <img class="nav-link__caret nav-link__caret--idle" src="assets/icons/caret-blue.svg" alt="">
             <img class="nav-link__caret nav-link__caret--active" src="assets/icons/caret-white.svg" alt="">
-          </a>
+          </button>
+          <ul class="dropdown" id="dropdown-grownups" hidden>
+            <li><a href="#">Shop</a></li>
+            <li><a href="#">Partners</a></li>
+            <li><a href="#">Subscribe</a></li>
+          </ul>
         </li>
       </ul>
     </nav>
@@ -114,11 +122,13 @@
       <!-- ===================== EVENTS ===================== -->
       <section class="section events" id="events" aria-labelledby="events-title">
         <div class="art" aria-hidden="true">
-          <img class="art__item" src="assets/art/clouds-puffy.png" alt="" style="--r:189px;--t:-143px;--w:516px" data-hide="stacked">
           <img class="art__item" src="assets/art/star-gold-r.png" alt="" style="--l:88px;--t:274px;--w:57px;--rot:-26.88deg">
           <img class="art__item" src="assets/art/star-blue-small.png" alt="" style="--l:58px;--t:428px;--w:75px">
         </div>
         <div class="panel-wrap container" style="--container-max: var(--container-diptych)">
+          <div class="art art--back" aria-hidden="true">
+            <img class="art__item" src="assets/art/clouds-puffy.png" alt="" style="--r:-39px;--t:-181px;--w:516px">
+          </div>
           <div class="art" aria-hidden="true">
             <img class="art__item" src="assets/art/balloons.png" alt="" style="--r:48px;--t:-38px;--w:135px" data-hide="stacked">
           </div>
@@ -151,7 +161,6 @@
         <div class="panel-wrap container" style="--container-max: var(--container-video)">
           <div class="art" aria-hidden="true">
             <img class="art__item" src="assets/art/dangling-toys.png" alt="" style="--l:-287px;--t:-100px;--w:247px" data-hide="tablet">
-            <img class="art__item" src="assets/img/gabby-pandy.png" alt="" style="--r:-230px;--t:226px;--w:306px" data-hide="tablet">
           </div>
           <div class="video-frame">
             <div class="video-player">
@@ -172,11 +181,14 @@
           <img class="art__item" src="assets/art/clouds-4.png" alt="" style="--r:11px;--t:171px;--w:216px" data-hide="mobile">
           <img class="art__item" src="assets/art/clouds-4.png" alt="" style="--l:-64px;--t:496px;--w:181px">
         </div>
-        <div class="art art--front" aria-hidden="true">
-          <img class="art__item" src="assets/art/clouds-horizontal.png" alt="" style="--l:75px;--t:-108px;--w:486px" data-hide="mobile">
-          <img class="art__item" src="assets/art/star-blue-small.png" alt="" style="--l:465px;--t:-28px;--w:78px" data-hide="mobile">
+        <div class="panel-wrap container" style="--container-max: var(--container-wide)">
+        <div class="art" aria-hidden="true">
+          <img class="art__item" src="assets/art/clouds-horizontal.png" alt="" style="--l:-55px;--t:-108px;--w:486px" data-hide="mobile">
+          <img class="art__item" src="assets/art/star-blue-small.png" alt="" style="--l:335px;--t:-28px;--w:78px" data-hide="mobile">
+          <!-- Gabby & Pandy belong to the video above, but sit on this panel's top edge -->
+          <img class="art__item" src="assets/img/gabby-pandy.png" alt="" style="--c:274px;--t:-369px;--w:306px" data-hide="tablet">
         </div>
-        <div class="container panel panel--wide">
+        <div class="panel panel--wide">
           <div class="panel__row">
             <div class="panel__header">
               <h2 class="t-h3 c-primary" id="episodes-title">Recent Episodes</h2>
@@ -190,7 +202,7 @@
                 <img class="episode-card__image" src="assets/img/episode-1.png" width="392" height="221" loading="lazy" alt="Gabby, DJ Catnip and Kitty Fairy in a scene from the episode">
                 <div class="episode-card__body">
                   <div class="episode-card__header">
-                    <p class="t-caption c-accent">Season 9, Episode 1</p>
+                    <p class="t-overline c-accent">Season 9, Episode 1</p>
                     <h3 class="t-h4 c-primary">Lorem ipsum dolor sit</h3>
                   </div>
                   <p class="t-body c-primary">Lorem ipsum dolor sit amet consectetur. Eros interdum egestas euismod mi metus ipsum nec nulla sit. A suscipit nunc pellentesque tristique in in.</p>
@@ -201,7 +213,7 @@
                 <img class="episode-card__image" src="assets/img/episode-2.png" width="392" height="221" loading="lazy" alt="Gabby and friends celebrating with a rainbow cake">
                 <div class="episode-card__body">
                   <div class="episode-card__header">
-                    <p class="t-caption c-accent">Season 9, Episode 1</p>
+                    <p class="t-overline c-accent">Season 9, Episode 1</p>
                     <h3 class="t-h4 c-primary">Lorem ipsum dolor sit</h3>
                   </div>
                   <p class="t-body c-primary">Lorem ipsum dolor sit amet consectetur. Eros interdum egestas euismod mi metus ipsum nec nulla sit. A suscipit nunc pellentesque tristique in in.</p>
@@ -212,7 +224,7 @@
                 <img class="episode-card__image" src="assets/img/episode-3.png" width="392" height="221" loading="lazy" alt="Gabby dancing with the kitties in the garden">
                 <div class="episode-card__body">
                   <div class="episode-card__header">
-                    <p class="t-caption c-accent">Season 9, Episode 1</p>
+                    <p class="t-overline c-accent">Season 9, Episode 1</p>
                     <h3 class="t-h4 c-primary">Lorem ipsum dolor sit</h3>
                   </div>
                   <p class="t-body c-primary">Lorem ipsum dolor sit amet consectetur. Eros interdum egestas euismod mi metus ipsum nec nulla sit. A suscipit nunc pellentesque tristique in in.</p>
@@ -222,12 +234,12 @@
             </ul>
           </div>
         </div>
+        </div>
       </section>
 
       <!-- ===================== CHARACTERS ===================== -->
       <section class="section characters" id="characters" aria-labelledby="characters-title">
         <div class="art" aria-hidden="true">
-          <img class="art__item" src="assets/art/purple-cat.png" alt="" style="--l:94px;--t:-23px;--w:62px;--rot:-40.91deg">
           <img class="art__item" src="assets/art/note-yellow.png" alt="" style="--l:340px;--t:93px;--w:58px" data-hide="tablet">
           <img class="art__item" src="assets/art/bubble.png" alt="" style="--l:227px;--t:204px;--w:113px;--rot:90deg" data-hide="tablet">
           <img class="art__item" src="assets/art/stars-m.png" alt="" style="--l:217px;--t:223px;--w:25px;--rot:-16.63deg" data-hide="tablet">
