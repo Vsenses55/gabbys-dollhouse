@@ -64,6 +64,15 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .t-label-uppercase { text-transform: uppercase; }
 .t-overline { font-size: var(--type-overline-size); line-height: var(--type-overline-lh); font-weight: var(--type-overline-weight); letter-spacing: var(--type-overline-track); }
 
+/* Eyebrow above diptych headings (Figma: Montserrat ExtraBold 17/25, +1 tracking — off the type scale) */
+.eyebrow { font-size: 17px; line-height: 25px; font-weight: 800; letter-spacing: 1px; }
+@media (max-width: 767px) { .eyebrow { font-size: 15px; line-height: 20px; } }
+
+/* Figma "text box trim: cap height / baseline" — removes the half-leading above and
+   below the letters so stacked labels and headings sit as tight as in the design.
+   Supported in Chrome/Edge 133+ and Safari 18.2+; other browsers keep normal spacing. */
+.trim-cap { text-box: trim-both cap alphabetic; }
+
 /* Color roles (Color/text/*) */
 .c-primary { color: var(--text-primary); }
 .c-secondary { color: var(--text-secondary); }

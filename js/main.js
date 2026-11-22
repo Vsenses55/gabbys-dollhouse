@@ -155,13 +155,19 @@
       }
 
       const out = -dir * TRAVEL();
+      // From a click the character starts at rest, so ease in. After a drag it's already
+      // moving, so keep that momentum (ease out) and only travel the remaining distance.
+      const fromDrag = fromX !== 0;
+      const remaining = Math.abs(out - fromX) / TRAVEL();
       await Promise.all([
-        featureImg.animate([pose(fromX), pose(out)], { duration: 280, easing: 'cubic-bezier(.5,0,.75,0)', fill: 'forwards' }).finished,
+        featureImg.animate([pose(fromX), pose(out)], fromDrag
+          ? { duration: Math.max(140, 260 * remaining), easing: 'cubic-bezier(.25,.6,.45,1)', fill: 'forwards' }
+          : { duration: 280, easing: 'cubic-bezier(.5,0,.75,0)', fill: 'forwards' }).finished,
         fadeText(
           [{ opacity: featureName.style.opacity || 1, transform: 'translateX(0)' }, { opacity: 0, transform: `translateX(${-dir * 40}px)` }],
           { duration: 220, easing: 'ease-in', fill: 'forwards' }),
       ]);
-      featureImg.style.transform = ''; setTextOpacity('');
+      featureImg.style.transform = ''; featureImg.style.opacity = ''; setTextOpacity('');
 
       current = index;
       setContent(c);
@@ -210,13 +216,14 @@
       dragging = false;
       stage.classList.remove('is-dragging');
       const fromX = dx * 0.9;
-      featureImg.style.opacity = '';
+      // inline transform/opacity stay in place until the next animation takes over (no flash)
       if (Math.abs(dx) > DRAG_THRESHOLD) {
         const dir = dx < 0 ? 1 : -1; // drag left → next character comes from the right
         go((current + dir + CHARACTERS.length) % CHARACTERS.length, dir, fromX);
       } else {
         featureImg.animate([pose(fromX), pose(0)], { duration: 300, easing: 'cubic-bezier(.22,1.2,.36,1)' });
         featureImg.style.transform = '';
+        featureImg.style.opacity = '';
         setTextOpacity('');
       }
     };
