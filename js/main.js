@@ -94,17 +94,27 @@
 
   const section = document.getElementById('characters');
   if (section) {
+    const stage = section.querySelector('[data-feature]');
     const featureImg = section.querySelector('[data-feature-img]');
     const featureName = section.querySelector('[data-feature-name]');
     const featureBio = section.querySelector('[data-feature-bio]');
     const featureText = section.querySelector('[data-feature-text]');
+    // only the words move; the teal panel stays put
+    const fadeText = (frames, opts) => Promise.all([featureName, featureBio].map((el) => el.animate(frames, opts).finished));
+    const setTextOpacity = (v) => { featureName.style.opacity = v; featureBio.style.opacity = v; };
     const list = section.querySelector('[data-cast-list]');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
     let current = 0;
     let busy = false;
 
+    // Motion settings
+    const TRAVEL = () => Math.min(window.innerWidth * 0.6, 640); // how far characters slide
+    const SMALL = 0.35;          // scale while off to the side
+    const DRAG_THRESHOLD = 80;   // px of drag needed to switch
+
     // preload so swaps are instant
     CHARACTERS.forEach((c) => { const i = new Image(); i.src = c.image; });
+    featureImg.draggable = false;
 
     const renderCast = () => {
       // the cast row shows everyone except the featured character, in rotation order
@@ -112,42 +122,106 @@
       list.innerHTML = others.map((k) => {
         const c = CHARACTERS[k];
         return `<li class="cast__item"><button type="button" data-index="${k}" aria-label="Show ${c.name}">
-          <img src="${c.image}" width="174" height="174" alt=""><span class="t-label c-inverse">${c.name.toUpperCase()}</span>
+          <img src="${c.image}" width="174" height="174" alt="" draggable="false"><span class="t-label c-inverse">${c.name.toUpperCase()}</span>
         </button></li>`;
       }).join('');
     };
 
-    const show = async (index) => {
-      if (busy || index === current) return;
-      busy = true;
-      const c = CHARACTERS[index];
-      const animate = !reduce.matches && featureImg.animate;
-      if (animate) {
-        await Promise.all([
-          featureImg.animate([{ opacity: 1, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(0.85) translateY(20px)' }], { duration: 180, easing: 'ease-in', fill: 'forwards' }).finished,
-          featureText.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 180, fill: 'forwards' }).finished,
-        ]);
-      }
-      current = index;
+    const setContent = (c) => {
       featureImg.src = c.image;
       featureImg.alt = c.alt;
       featureName.textContent = c.name;
       featureBio.textContent = c.bio;
-      renderCast();
-      if (animate) {
-        featureImg.animate([{ opacity: 0, transform: 'scale(0.85) translateY(20px)' }, { opacity: 1, transform: 'scale(1.04)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 420, easing: 'cubic-bezier(.2,.8,.2,1.2)', fill: 'forwards' });
-        featureText.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 260, fill: 'forwards' });
+    };
+
+    // Transform for a given horizontal offset: the further from centre, the smaller
+    const pose = (x) => {
+      const t = Math.min(Math.abs(x) / TRAVEL(), 1);
+      const scale = 1 - (1 - SMALL) * t;
+      return { transform: `translateX(${x}px) scale(${scale}) rotate(${x / 40}deg)`, opacity: 1 - t * 0.9 };
+    };
+
+    // dir = 1: new character enters from the right, old one leaves to the left. dir = -1: the reverse.
+    const go = async (index, dir, fromX = 0) => {
+      if (busy || index === current) return;
+      busy = true;
+      const c = CHARACTERS[index];
+
+      if (reduce.matches || !featureImg.animate) {
+        current = index; setContent(c); renderCast();
+        featureImg.style.transform = ''; setTextOpacity('');
+        busy = false;
+        return;
       }
+
+      const out = -dir * TRAVEL();
+      await Promise.all([
+        featureImg.animate([pose(fromX), pose(out)], { duration: 280, easing: 'cubic-bezier(.5,0,.75,0)', fill: 'forwards' }).finished,
+        fadeText(
+          [{ opacity: featureName.style.opacity || 1, transform: 'translateX(0)' }, { opacity: 0, transform: `translateX(${-dir * 40}px)` }],
+          { duration: 220, easing: 'ease-in', fill: 'forwards' }),
+      ]);
+      featureImg.style.transform = ''; setTextOpacity('');
+
+      current = index;
+      setContent(c);
+      renderCast();
+
+      const enter = dir * TRAVEL();
+      featureImg.animate([pose(enter), pose(0)], { duration: 560, easing: 'cubic-bezier(.22,1.2,.36,1)', fill: 'forwards' });
+      await fadeText(
+        [{ opacity: 0, transform: `translateX(${dir * 40}px)` }, { opacity: 1, transform: 'translateX(0)' }],
+        { duration: 380, delay: 120, easing: 'ease-out', fill: 'forwards' });
       busy = false;
     };
 
-    const step = (dir) => show((current + dir + CHARACTERS.length) % CHARACTERS.length);
+    const step = (dir) => go((current + dir + CHARACTERS.length) % CHARACTERS.length, dir);
     section.querySelector('[data-cast-next]').addEventListener('click', () => step(1));
     section.querySelector('[data-cast-prev]').addEventListener('click', () => step(-1));
     list.addEventListener('click', (e) => {
       const btn = e.target.closest('button[data-index]');
-      if (btn) show(Number(btn.dataset.index));
+      if (btn) go(Number(btn.dataset.index), 1);
     });
+    section.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') step(1);
+      if (e.key === 'ArrowLeft') step(-1);
+    });
+
+    // ---- Drag / swipe the featured character ----
+    let startX = 0, dx = 0, dragging = false;
+    stage.addEventListener('pointerdown', (e) => {
+      if (busy || e.button !== 0) return;
+      dragging = true; startX = e.clientX; dx = 0;
+      featureImg.getAnimations().forEach((a) => a.cancel());
+      [featureName, featureBio].forEach((el) => el.getAnimations().forEach((a) => a.cancel()));
+      stage.setPointerCapture(e.pointerId);
+      stage.classList.add('is-dragging');
+    });
+    stage.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      dx = e.clientX - startX;
+      const p = pose(dx * 0.9);
+      featureImg.style.transform = p.transform;
+      featureImg.style.opacity = p.opacity;
+      setTextOpacity(String(Math.max(1 - Math.abs(dx) / 300, 0.2)));
+    });
+    const endDrag = () => {
+      if (!dragging) return;
+      dragging = false;
+      stage.classList.remove('is-dragging');
+      const fromX = dx * 0.9;
+      featureImg.style.opacity = '';
+      if (Math.abs(dx) > DRAG_THRESHOLD) {
+        const dir = dx < 0 ? 1 : -1; // drag left → next character comes from the right
+        go((current + dir + CHARACTERS.length) % CHARACTERS.length, dir, fromX);
+      } else {
+        featureImg.animate([pose(fromX), pose(0)], { duration: 300, easing: 'cubic-bezier(.22,1.2,.36,1)' });
+        featureImg.style.transform = '';
+        setTextOpacity('');
+      }
+    };
+    stage.addEventListener('pointerup', endDrag);
+    stage.addEventListener('pointercancel', endDrag);
 
     // Keep the profile panel at the height of the longest bio so the page doesn't jump
     const lockHeight = () => {

@@ -84,14 +84,14 @@ async function init(host) {
         // small window highlight, upper left
         float spec = pow(max(dot(n, normalize(vec3(-0.45, 0.55, 0.7))), 0.0), 48.0);
         gl_FragColor.rgb = mix(gl_FragColor.rgb, film, 0.8 * fres) * 0.85 + spec * 0.6; // tinted rim, less white
-        gl_FragColor.a = clamp(fres * 0.5 + spec * 0.5, 0.0, 1.0);`);
+        gl_FragColor.a = clamp(fres * 0.75 + spec * 0.7, 0.0, 1.0);`);
   };
 
   const geometry = new THREE.SphereGeometry(1, 48, 48);
 
   // ---- bubbles ----
   const isSmall = () => host.clientWidth < 768;
-  const count = isSmall() ? 7 : 14;
+  const count = isSmall() ? 9 : 18;
   const bubbles = [];
   let viewW = 1, viewH = 1;
   const pxToWorld = () => viewH / Math.max(host.clientHeight, 1);
@@ -99,7 +99,7 @@ async function init(host) {
   const rand = (a, b) => a + Math.random() * (b - a);
 
   function reset(b, initial) {
-    b.size = rand(8, isSmall() ? 23 : 31) * pxToWorld(); // radius in CSS px, so size is the same in any section height
+    b.size = rand(10, isSmall() ? 28 : 40) * pxToWorld(); // radius in CSS px, so size is the same in any section height
     b.x = rand(-viewW / 2, viewW / 2);
     b.y = initial ? rand(-viewH / 2, viewH / 2) : -viewH / 2 - b.size - rand(0, 1.5);
     b.speed = rand(0.35, 0.8);
