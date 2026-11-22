@@ -108,8 +108,11 @@
   --gutter: var(--px-24);       /* page side padding once the viewport is narrower than a container */
 }
 
-/* ---------- Mobile mode (Typography + Radius collections) ---------- */
-@media (max-width: 767px) {
+/* ---------- Mobile mode: Radius collection ----------
+   Radius switches earlier than type (≤1099px, when panels stack) because
+   the desktop radii (up to 120px) read too round on single-column panels.
+   Figma keeps the two modes independent, so this is allowed. */
+@media (max-width: 1099px) {
   :root {
     --radius-xs: var(--px-9);
     --radius-sm: var(--px-12);
@@ -120,7 +123,12 @@
     --radius-3xl: var(--px-40);
     --radius-4xl: var(--px-50);
     --radius-5xl: var(--px-60);
+  }
+}
 
+/* ---------- Mobile mode: Typography collection ---------- */
+@media (max-width: 767px) {
+  :root {
     --type-h1-size: var(--px-36); --type-h1-lh: var(--px-40); --type-h1-track: -0.5px;
     --type-h2-size: var(--px-32); --type-h2-lh: var(--px-40); --type-h2-track: -0.5px;
     --type-h3-size: var(--px-28); --type-h3-lh: var(--px-36); --type-h3-track: -0.25px;
