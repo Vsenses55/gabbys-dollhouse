@@ -281,11 +281,16 @@
   .hero__art { max-width: 640px; }
 }
 
-/* Mobile hero: logo → artwork → heading/copy */
+/* Mobile hero: menu icon on its own row → logo → artwork → heading/copy */
 @media (max-width: 767px) {
-  .logo { width: 220px; }       /* a bit under the 250px desktop logo */
-  .hero__inner { padding-top: 124px; }   /* header ends ~100px; ~24px of separation */
-  .hero__copy { order: 0; margin: var(--px-16) 0 var(--px-32); }
+  .site-header { padding-top: var(--px-12); }
+  .site-header__bar { padding-top: 56px; }            /* menu icon row (48px) + 8px */
+  .nav__toggle { top: 0; transform: none; }
+  .logo { width: 220px; }                             /* a bit under the 250px desktop logo */
+  .hero__inner { padding-top: 160px; }                /* logo ends ~145px; ~16px separation */
+  .hero__copy { order: 0; gap: var(--px-8); margin: var(--px-4) 0 var(--px-24); }
+  /* diptych image corners follow the panel on mobile (panel 30px − 20px padding ≈ 20px) */
+  .diptych .diptych__media img { border-radius: var(--radius-md); }
 }
 
 /* ==========================================================================
