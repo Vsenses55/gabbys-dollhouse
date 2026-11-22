@@ -1,5 +1,24 @@
 // Gabby's Dollhouse — homepage interactions (no dependencies)
 (() => {
+  // ---------------------------------------------------------------------------
+  // Scroll reveal: sections fade/slide up as they enter the viewport (once each)
+  // ---------------------------------------------------------------------------
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  document.querySelectorAll('[data-reveal-stagger]').forEach((group) =>
+    [...group.children].forEach((child, i) => child.style.setProperty('--i', i)));
+  if ('IntersectionObserver' in window) {
+    const revealIO = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-revealed');
+        revealIO.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach((el) => revealIO.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add('is-revealed'));
+  }
+
   const header = document.getElementById('site-header');
   const toggle = header.querySelector('.nav__toggle');
 

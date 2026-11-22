@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gabby's Dollhouse — Homepage prototype</title>
   <meta name="description" content="Responsive homepage prototype for Gabby's Dollhouse. Portfolio project by Orlando Antonio.">
+  <script>document.documentElement.className = "js";</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
@@ -111,9 +112,9 @@
           <img class="art__item" src="assets/art/star-gold.png" alt="" style="--r:111px;--t:625px;--w:44px" data-hide="laptop">
         </div>
         <div class="hero__inner container">
-        <img class="hero__art" src="assets/img/hero-art.png" width="700" height="577"
+        <img class="hero__art" data-reveal="zoom" src="assets/img/hero-art.png" width="700" height="577"
              alt="Gabby playing guitar in front of the dollhouse with Pandy Paws, Cakey Cat, MerCat and friends under a rainbow">
-        <div class="hero__copy">
+        <div class="hero__copy" data-reveal style="--reveal-delay: 120ms">
           <h1 class="hero__title t-h1 c-inverse" id="hero-title">Welcome to Gabby’s Dollhouse!</h1>
           <p class="hero__lead t-body-lg c-inverse">With a little magic and a new surprise every day, <br>Gabby's Dollhouse is filled with mini-worlds, irresistible kitty characters, and super fun adventures!</p>
         </div>
@@ -126,7 +127,7 @@
           <img class="art__item" src="assets/art/star-gold-r.png" alt="" style="--l:88px;--t:274px;--w:57px;--rot:-26.88deg">
           <img class="art__item" src="assets/art/star-blue-small.png" alt="" style="--l:58px;--t:428px;--w:75px">
         </div>
-        <div class="panel-wrap container" style="--container-max: var(--container-diptych)">
+        <div class="panel-wrap container" data-reveal style="--container-max: var(--container-diptych)">
           <div class="art art--back" aria-hidden="true">
             <img class="art__item" src="assets/art/clouds-puffy.png" alt="" style="--r:-39px;--t:-181px;--w:516px" data-hide="mobile">
           </div>
@@ -159,7 +160,7 @@
           <img class="art__item" src="assets/art/musical-notes-1.png" alt="" style="--l:-33px;--t:527px;--w:298px;--rot:-17.19deg">
           <img class="art__item" src="assets/art/musical-notes-2.png" alt="" style="--r:-24px;--t:375px;--w:313px;--rot:20.8deg" data-hide="mobile">
         </div>
-        <div class="panel-wrap container" style="--container-max: var(--container-video)">
+        <div class="panel-wrap container" data-reveal style="--container-max: var(--container-video)">
           <div class="art" aria-hidden="true">
             <img class="art__item" src="assets/art/dangling-toys.png" alt="" style="--l:-287px;--t:-100px;--w:247px" data-hide="tablet">
           </div>
@@ -182,7 +183,7 @@
           <img class="art__item" src="assets/art/clouds-4.png" alt="" style="--r:11px;--t:171px;--w:216px" data-hide="mobile">
           <img class="art__item" src="assets/art/clouds-4.png" alt="" style="--l:-64px;--t:496px;--w:181px">
         </div>
-        <div class="panel-wrap container" style="--container-max: var(--container-wide)">
+        <div class="panel-wrap container" data-reveal style="--container-max: var(--container-wide)">
         <div class="art art--back" aria-hidden="true">
           <img class="art__item" src="assets/art/clouds-horizontal.png" alt="" style="--l:37px;--t:-82px;--w:474px" data-hide="mobile">
         </div>
@@ -200,7 +201,7 @@
                 More episodes
               </a>
             </div>
-            <ul class="card-grid">
+            <ul class="card-grid" data-reveal-stagger>
               <li class="episode-card">
                 <img class="episode-card__image" src="assets/img/episode-1.png" width="392" height="221" loading="lazy" alt="Gabby, DJ Catnip and Kitty Fairy in a scene from the episode">
                 <div class="episode-card__body">
@@ -257,7 +258,7 @@
           <img class="art__item" src="assets/art/star-gold-middle.png" alt="" style="--l:298px;--t:1035px;--w:59px;--rot:-18.24deg" data-hide="mobile">
         </div>
 
-        <div class="characters__stage container">
+        <div class="characters__stage container" data-reveal>
           <!-- Character carousel: data lives in js/main.js (CHARACTERS). This markup is the
                no-JS first render and gets rebuilt from that list. -->
           <div class="characters__feature" data-feature aria-live="polite">
@@ -296,7 +297,7 @@
           <img class="art__item" src="assets/art/cat-green.png" alt="" style="--l:61px;--t:82px;--w:96px">
           <img class="art__item" src="assets/art/clouds-horizontal.png" alt="" style="--c:39px;--t:-75px;--w:515px" data-hide="mobile">
         </div>
-        <div class="panel-wrap container" style="--container-max: var(--container-diptych)">
+        <div class="panel-wrap container" data-reveal style="--container-max: var(--container-diptych)">
           <div class="art" aria-hidden="true">
             <img class="art__item" src="assets/art/saturn-icon.png" alt="" style="--l:969px;--t:-69px;--w:127px;--rot:-12.5deg" data-hide="tablet">
           </div>
@@ -328,9 +329,9 @@
         <div class="art art--front" aria-hidden="true">
           <img class="art__item" src="assets/art/clouds-puffy.png" alt="" style="--l:104px;--t:-58px;--w:293px" data-hide="mobile">
         </div>
-        <div class="container panel panel--wide">
+        <div class="container panel panel--wide" data-reveal>
           <h2 class="t-h2 c-primary" id="activities-title">Activities</h2>
-          <ul class="card-grid">
+          <ul class="card-grid" data-reveal-stagger>
             <li class="activity-card">
               <a href="#">
                 <img src="assets/img/activity-1.png" width="392" height="375" loading="lazy" alt="">
@@ -368,7 +369,7 @@
         <img class="art__item" src="assets/art/star-blue-small.png" alt="" style="--r:233px;--t:236px;--w:57px" data-hide="mobile">
         <img class="art__item" src="assets/art/star-blue-small.png" alt="" style="--r:118px;--t:424px;--w:48px" data-hide="mobile">
       </div>
-      <div class="footer__inner container">
+      <div class="footer__inner container" data-reveal>
         <img class="footer__logo" src="assets/icons/logo.svg" width="400" height="140" alt="Gabby's Dollhouse">
         <nav aria-label="Footer">
           <ul class="footer__links t-label-uppercase c-inverse">
