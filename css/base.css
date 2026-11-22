@@ -1,0 +1,100 @@
+/* ==========================================================================
+   Base: reset, typography roles, shared primitives (container, button)
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-lh);
+  color: var(--text-body);
+  background: #5b38e0; /* fallback under the section backgrounds */
+  overflow-x: clip;    /* decorative art may bleed past the viewport edge */
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg { display: block; max-width: 100%; }
+h1, h2, h3, h4, h5, h6, p, ul, ol, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+
+:focus-visible {
+  outline: 3px solid var(--text-primary);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute; left: var(--px-16); top: -100px; z-index: 1000;
+  background: var(--surface-default); color: var(--text-primary);
+  padding: var(--px-12) var(--px-20); border-radius: var(--radius-xs);
+  font-weight: 800;
+}
+.skip-link:focus { top: var(--px-16); }
+
+/* ---------- Typography roles (Typography/{role}) ----------
+   Visual role is independent of the HTML heading level. */
+.t-h1, .t-h2, .t-h3, .t-h4, .t-h5, .t-h6,
+.t-body-lg, .t-body, .t-body-sm, .t-caption,
+.t-label, .t-label-uppercase, .t-overline { font-family: var(--font-family); }
+
+.t-h1 { font-size: var(--type-h1-size); line-height: var(--type-h1-lh); font-weight: var(--type-h1-weight); letter-spacing: var(--type-h1-track); }
+.t-h2 { font-size: var(--type-h2-size); line-height: var(--type-h2-lh); font-weight: var(--type-h2-weight); letter-spacing: var(--type-h2-track); }
+.t-h3 { font-size: var(--type-h3-size); line-height: var(--type-h3-lh); font-weight: var(--type-h3-weight); letter-spacing: var(--type-h3-track); }
+.t-h4 { font-size: var(--type-h4-size); line-height: var(--type-h4-lh); font-weight: var(--type-h4-weight); letter-spacing: var(--type-h4-track); }
+.t-h5 { font-size: var(--type-h5-size); line-height: var(--type-h5-lh); font-weight: var(--type-h5-weight); letter-spacing: var(--type-h5-track); }
+.t-h6 { font-size: var(--type-h6-size); line-height: var(--type-h6-lh); font-weight: var(--type-h6-weight); letter-spacing: var(--type-h6-track); }
+.t-body-lg { font-size: var(--type-body-lg-size); line-height: var(--type-body-lg-lh); font-weight: var(--type-body-lg-weight); letter-spacing: var(--type-body-lg-track); }
+.t-body { font-size: var(--type-body-size); line-height: var(--type-body-lh); font-weight: var(--type-body-weight); letter-spacing: var(--type-body-track); }
+.t-body-sm { font-size: var(--type-body-sm-size); line-height: var(--type-body-sm-lh); font-weight: var(--type-body-sm-weight); letter-spacing: var(--type-body-sm-track); }
+.t-caption { font-size: var(--type-caption-size); line-height: var(--type-caption-lh); font-weight: var(--type-caption-weight); letter-spacing: var(--type-caption-track); }
+.t-label, .t-label-uppercase { font-size: var(--type-label-size); line-height: var(--type-label-lh); font-weight: var(--type-label-weight); letter-spacing: var(--type-label-track); }
+.t-label-uppercase { text-transform: uppercase; }
+.t-overline { font-size: var(--type-overline-size); line-height: var(--type-overline-lh); font-weight: var(--type-overline-weight); letter-spacing: var(--type-overline-track); }
+
+/* Color roles (Color/text/*) */
+.c-primary { color: var(--text-primary); }
+.c-secondary { color: var(--text-secondary); }
+.c-body { color: var(--text-body); }
+.c-body-detail { color: var(--text-body-detail); }
+.c-inverse { color: var(--text-inverse); }
+.c-accent { color: var(--text-accent); }
+.c-on-profile { color: var(--text-on-profile); }
+
+/* ---------- Container: Figma widths are max widths ---------- */
+.container {
+  width: min(100% - 2 * var(--gutter), var(--container-max, var(--container-wide)));
+  margin-inline: auto;
+}
+
+/* ---------- Button Blue ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--px-60);
+  padding: var(--px-14) var(--px-25);
+  border-radius: var(--px-24); /* literal 24 in Figma (not bound to a radius token) */
+  background: var(--control-primary);
+  color: var(--text-inverse);
+  white-space: nowrap;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+.btn:hover { filter: brightness(1.06); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+
+@media (max-width: 767px) {
+  .btn { min-height: var(--px-48); padding: var(--px-12) var(--px-20); }
+}

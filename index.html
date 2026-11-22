@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gabby's Dollhouse — Homepage prototype</title>
+  <meta name="description" content="Responsive homepage prototype for Gabby's Dollhouse. Portfolio project by Orlando Antonio.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/sections.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ===================== NAVIGATION (overlays the hero) ===================== -->
+  <header class="site-header" id="site-header">
+    <nav class="site-header__bar container" aria-label="Main">
+      <a class="logo" href="#main" aria-label="Gabby's Dollhouse home">
+        <img src="assets/icons/logo.svg" alt="Gabby's Dollhouse" width="250" height="88">
+      </a>
+
+      <button class="nav__toggle t-label-uppercase" type="button" aria-expanded="false" aria-controls="menu-bar">
+        <span class="nav__toggle-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+        Menu
+      </button>
+
+      <ul class="menu-bar container" id="menu-bar">
+        <li>
+          <a class="nav-link" href="#characters">
+            <img class="nav-link__icon" src="assets/icons/menu-characters.svg" alt="">
+            Characters
+          </a>
+        </li>
+        <li>
+          <!-- TODO: Watch dropdown items aren't in the design yet -->
+          <a class="nav-link" href="#video">
+            <img class="nav-link__icon" src="assets/icons/menu-watch.svg" alt="">
+            Watch
+            <img class="nav-link__caret nav-link__caret--idle" src="assets/icons/caret-blue.svg" alt="">
+            <img class="nav-link__caret nav-link__caret--active" src="assets/icons/caret-white.svg" alt="">
+          </a>
+        </li>
+        <li>
+          <a class="nav-link" href="#music">
+            <img class="nav-link__icon" src="assets/icons/menu-music.svg" alt="">
+            Music
+          </a>
+        </li>
+        <li>
+          <button class="nav-link" type="button" aria-expanded="false" aria-controls="dropdown-fun">
+            <img class="nav-link__icon" src="assets/icons/menu-fun.svg" alt="">
+            Fun
+            <img class="nav-link__caret nav-link__caret--idle" src="assets/icons/caret-blue.svg" alt="">
+            <img class="nav-link__caret nav-link__caret--active" src="assets/icons/caret-white.svg" alt="">
+          </button>
+          <ul class="dropdown" id="dropdown-fun" hidden>
+            <li><a href="#apps">Spin Master App</a></li>
+            <li><a href="#">Neon Wild</a></li>
+            <li><a href="#">Web Games</a></li>
+            <li><a href="#">Pinterest Board</a></li>
+            <li><a href="#">Birthday Call</a></li>
+            <li><a href="#activities">Printables</a></li>
+          </ul>
+        </li>
+        <li>
+          <a class="nav-link" href="#events">
+            <img class="nav-link__icon" src="assets/icons/menu-events.svg" alt="">
+            Events
+          </a>
+        </li>
+        <li>
+          <!-- TODO: Grown-Ups dropdown items aren't in the design yet -->
+          <a class="nav-link" href="#footer">
+            <img class="nav-link__icon" src="assets/icons/menu-grownups.svg" alt="">
+            Grown-Ups
+            <img class="nav-link__caret nav-link__caret--idle" src="assets/icons/caret-blue.svg" alt="">
+            <img class="nav-link__caret nav-link__caret--active" src="assets/icons/caret-white.svg" alt="">
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+      <!-- ===================== HERO ===================== -->
+      <section class="section hero" aria-labelledby="hero-title">
+        <div class="art" aria-hidden="true">
+          <img class="art__item" src="assets/art/clouds-2.png" alt="" style="--l:43px;--t:54px;--w:150px" data-hide="mobile">
+          <img class="art__item" src="assets/art/cathouse-yellow-sun.png" alt="" style="--l:93px;--t:117px;--w:118px" data-hide="stacked">
+          <img class="art__item" src="assets/art/clouds-5.png" alt="" style="--l:-61px;--t:524px;--w:211px;--rot:-24.51deg" data-hide="mobile">
+          <img class="art__item" src="assets/art/clouds-5.png" alt="" style="--l:264px;--t:366px;--w:57px;--rot:173.42deg;--sy:-1" data-hide="tablet">
+          <img class="art__item" src="assets/art/clouds-4.png" alt="" style="--r:-120px;--t:-115px;--w:333px">
+          <img class="art__item" src="assets/art/saturn.png" alt="" style="--r:24px;--t:0px;--w:197px">
+          <img class="art__item" src="assets/art/clouds-puffy.png" alt="" style="--r:34px;--t:270px;--w:288px" data-hide="stacked">
+          <img class="art__item" src="assets/art/star-blue.png" alt="" style="--r:115px;--t:380px;--w:78px" data-hide="laptop">
+          <img class="art__item" src="assets/art/star-gold.png" alt="" style="--c:-75px;--t:327px;--w:78px" data-hide="tablet">
+          <img class="art__item" src="assets/art/star-gold.png" alt="" style="--c:73px;--t:724px;--w:40px" data-hide="tablet">
+          <img class="art__item" src="assets/art/star-gold.png" alt="" style="--r:111px;--t:625px;--w:44px" data-hide="laptop">
+        </div>
+        <div class="hero__inner container">
+        <img class="hero__art" src="assets/img/hero-art.png" width="700" height="577"
+             alt="Gabby playing guitar in front of the dollhouse with Pandy Paws, Cakey Cat, MerCat and friends under a rainbow">
+        <div class="hero__copy">
+          <h1 class="hero__title t-h1 c-inverse" id="hero-title">Welcome to Gabby’s Dollhouse!</h1>
+          <p class="hero__lead t-body-lg c-inverse">With a little magic and a new surprise every day,<br>Gabby's Dollhouse is filled with mini-worlds, irresistible kitty characters, and super fun adventures!</p>
+        </div>
+        </div>
+      </section>
+
+      <!-- ===================== EVENTS ===================== -->
+      <section class="section events" id="events" aria-labelledby="events-title">
+        <div class="art" aria-hidden="true">
+          <img class="art__item" src="assets/art/clouds-puffy.png" alt="" style="--r:189px;--t:-143px;--w:516px" data-hide="stacked">
+          <img class="art__item" src="assets/art/star-gold-r.png" alt="" style="--l:88px;--t:274px;--w:57px;--rot:-26.88deg">
+          <img class="art__item" src="assets/art/star-blue-small.png" alt="" style="--l:58px;--t:428px;--w:75px">
+        </div>
+        <div class="panel-wrap container" style="--container-max: var(--container-diptych)">
+          <div class="art" aria-hidden="true">
+            <img class="art__item" src="assets/art/balloons.png" alt="" style="--r:48px;--t:-38px;--w:135px" data-hide="stacked">
+          </div>
+          <div class="panel diptych">
+            <div class="diptych__media">
+              <img src="assets/img/events-preview.png" width="544" height="400" loading="lazy"
+                   alt="Gabby waving beside the Gabby's Dollhouse tour van">
+            </div>
+            <div class="diptych__content">
+              <div class="diptych__text">
+                <div class="heading-group c-primary">
+                  <p class="t-overline">Events</p>
+                  <h2 class="t-h3" id="events-title">Where Gabby is Headed</h2>
+                </div>
+                <p class="t-body-lg c-body-detail">DreamWorks Animation and Gabby’s Dollhouse are going on the road! Head over to participating Walmart locations to join Gabby as she travels across the U.S. on The Bakey with Cakey Tour!</p>
+              </div>
+              <a class="btn t-label-uppercase" href="#">Learn more</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== VIDEO ===================== -->
+      <section class="section video" id="video" aria-labelledby="video-title">
+        <div class="art" aria-hidden="true">
+          <img class="art__item" src="assets/art/clouds.png" alt="" style="--r:34px;--t:184px;--w:213px;--rot:-164.4deg;--sy:-1" data-hide="mobile">
+          <img class="art__item" src="assets/art/musical-notes-1.png" alt="" style="--l:-33px;--t:527px;--w:298px;--rot:-17.19deg">
+          <img class="art__item" src="assets/art/musical-notes-2.png" alt="" style="--r:-24px;--t:375px;--w:313px;--rot:20.8deg" data-hide="mobile">
+        </div>
+        <div class="panel-wrap container" style="--container-max: var(--container-video)">
+          <div class="art" aria-hidden="true">
+            <img class="art__item" src="assets/art/dangling-toys.png" alt="" style="--l:-287px;--t:-100px;--w:247px" data-hide="tablet">
+            <img class="art__item" src="assets/img/gabby-pandy.png" alt="" style="--r:-230px;--t:226px;--w:306px" data-hide="tablet">
+          </div>
+          <div class="video-frame">
+            <div class="video-player">
+              <img src="assets/img/video-fpo.png" width="694" height="390" loading="lazy" alt="">
+              <button class="video-player__play" type="button" aria-label="Play the Season 9 trailer">
+                <img src="assets/icons/play.svg" alt="">
+              </button>
+            </div>
+            <p class="video-frame__overline t-overline c-accent">SEASON 9, TRAILER</p>
+            <h2 class="video-frame__title t-h3 c-primary" id="video-title">GABBY’S DOLLHOUSE</h2>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== RECENT EPISODES ===================== -->
+      <section class="section episodes" id="episodes" aria-labelledby="episodes-title">
+        <div class="art" aria-hidden="true">
+          <img class="art__item" src="assets/art/clouds-4.png" alt="" style="--r:11px;--t:171px;--w:216px" data-hide="mobile">
+          <img class="art__item" src="assets/art/clouds-4.png" alt="" style="--l:-64px;--t:496px;--w:181px">
+        </div>
+        <div class="art art--front" aria-hidden="true">
+          <img class="art__item" src="assets/art/clouds-horizontal.png" alt="" style="--l:75px;--t:-108px;--w:486px" data-hide="mobile">
+          <img class="art__item" src="assets/art/star-blue-small.png" alt="" style="--l:465px;--t:-28px;--w:78px" data-hide="mobile">
+        </div>
+        <div class="container panel panel--wide">
+          <div class="panel__row">
+            <div class="panel__header">
+              <h2 class="t-h3 c-primary" id="episodes-title">Recent Episodes</h2>
+              <a class="text-link t-label-uppercase" href="#">
+                <img src="assets/icons/triangle.svg" alt="" style="transform: rotate(90deg)">
+                More episodes
+              </a>
+            </div>
+            <ul class="card-grid">
+              <li class="episode-card">
+                <img class="episode-card__image" src="assets/img/episode-1.png" width="392" height="221" loading="lazy" alt="Gabby, DJ Catnip and Kitty Fairy in a scene from the episode">
+                <div class="episode-card__body">
+                  <div class="episode-card__header">
+                    <p class="t-caption c-accent">Season 9, Episode 1</p>
+                    <h3 class="t-h4 c-primary">Lorem ipsum dolor sit</h3>
+                  </div>
+                  <p class="t-body c-primary">Lorem ipsum dolor sit amet consectetur. Eros interdum egestas euismod mi metus ipsum nec nulla sit. A suscipit nunc pellentesque tristique in in.</p>
+                  <a class="btn t-label-uppercase" href="#">Button Name</a>
+                </div>
+              </li>
+              <li class="episode-card">
+                <img class="episode-card__image" src="assets/img/episode-2.png" width="392" height="221" loading="lazy" alt="Gabby and friends celebrating with a rainbow cake">
+                <div class="episode-card__body">
+                  <div class="episode-card__header">
+                    <p class="t-caption c-accent">Season 9, Episode 1</p>
+                    <h3 class="t-h4 c-primary">Lorem ipsum dolor sit</h3>
+                  </div>
+                  <p class="t-body c-primary">Lorem ipsum dolor sit amet consectetur. Eros interdum egestas euismod mi metus ipsum nec nulla sit. A suscipit nunc pellentesque tristique in in.</p>
+                  <a class="btn t-label-uppercase" href="#">Button Name</a>
+                </div>
+              </li>
+              <li class="episode-card">
+                <img class="episode-card__image" src="assets/img/episode-3.png" width="392" height="221" loading="lazy" alt="Gabby dancing with the kitties in the garden">
+                <div class="episode-card__body">
+                  <div class="episode-card__header">
+                    <p class="t-caption c-accent">Season 9, Episode 1</p>
+                    <h3 class="t-h4 c-primary">Lorem ipsum dolor sit</h3>
+                  </div>
+                  <p class="t-body c-primary">Lorem ipsum dolor sit amet consectetur. Eros interdum egestas euismod mi metus ipsum nec nulla sit. A suscipit nunc pellentesque tristique in in.</p>
+                  <a class="btn t-label-uppercase" href="#">Button Name</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== CHARACTERS ===================== -->
+      <section class="section characters" id="characters" aria-labelledby="characters-title">
+        <div class="art" aria-hidden="true">
+          <img class="art__item" src="assets/art/purple-cat.png" alt="" style="--l:94px;--t:-23px;--w:62px;--rot:-40.91deg">
+          <img class="art__item" src="assets/art/note-yellow.png" alt="" style="--l:340px;--t:93px;--w:58px" data-hide="tablet">
+          <img class="art__item" src="assets/art/bubble.png" alt="" style="--l:227px;--t:204px;--w:113px;--rot:90deg" data-hide="tablet">
+          <img class="art__item" src="assets/art/stars-m.png" alt="" style="--l:217px;--t:223px;--w:25px;--rot:-16.63deg" data-hide="tablet">
+          <img class="art__item" src="assets/art/fish.png" alt="" style="--l:287px;--t:278px;--w:71px" data-hide="tablet">
+          <img class="art__item" src="assets/art/bubble-small.png" alt="" style="--c:284px;--t:42px;--w:57px" data-hide="mobile">
+          <img class="art__item" src="assets/art/clouds-4.png" alt="" style="--r:57px;--t:326px;--w:141px">
+          <img class="art__item" src="assets/art/stars-r.png" alt="" style="--r:126px;--t:404px;--w:52px">
+          <img class="art__item" src="assets/art/bubble.png" alt="" style="--c:430px;--t:463px;--w:92px" data-hide="tablet">
+          <img class="art__item" src="assets/art/star-gold-r.png" alt="" style="--c:435px;--t:459px;--w:30px;--rot:-18.12deg" data-hide="tablet">
+          <img class="art__item" src="assets/art/blue-cat.png" alt="" style="--l:95px;--t:539px;--w:75px;--rot:-14.05deg" data-hide="mobile">
+          <img class="art__item" src="assets/art/clouds-puffy.png" alt="" style="--l:31px;--t:544px;--w:267px" data-hide="mobile">
+          <img class="art__item" src="assets/art/star-gold-middle.png" alt="" style="--l:298px;--t:1035px;--w:59px;--rot:-18.24deg" data-hide="mobile">
+        </div>
+
+        <div class="characters__stage container">
+          <div class="characters__feature">
+            <img class="characters__rays" src="assets/img/rays.png" alt="" aria-hidden="true">
+            <img class="characters__hero-img" src="assets/img/char-cakey.png" width="480" height="480" loading="lazy" alt="Cakey Cat, a smiling kitty cupcake with rainbow sprinkles">
+          </div>
+
+          <div class="profile container">
+            <h2 class="t-h2 c-on-profile" id="characters-title">Cakey Cake</h2>
+            <p class="profile__text t-body-lg c-on-profile">Half kitty, half cupcake, Cakey Cat is the easily-excitable cupcake in the kitchen! Spunky yet sensitive, Cakey can go from super happy to really worried in the blink of an eye. Keep an eye out for his sprinkles, because they’ll let you know exactly what he’s feeling.</p>
+          </div>
+
+          <div class="cast" data-cast>
+            <button class="cast__arrow" type="button" data-cast-prev aria-label="Previous characters">
+              <img src="assets/icons/arrow-left.svg" alt="">
+            </button>
+            <div class="cast__viewport">
+              <ul class="cast__list" data-cast-list>
+                <li class="cast__item"><a href="#"><img src="assets/img/char-mercat.png" width="174" height="174" loading="lazy" alt=""><span class="t-label c-inverse">MERCAT</span></a></li>
+                <li class="cast__item"><a href="#"><img src="assets/img/char-pandy.png" width="174" height="174" loading="lazy" alt=""><span class="t-label c-inverse">PANDY PAWS</span></a></li>
+                <li class="cast__item"><a href="#"><img src="assets/img/char-mamabox.png" width="174" height="174" loading="lazy" alt=""><span class="t-label c-inverse">MAMA BOX</span></a></li>
+              </ul>
+            </div>
+            <button class="cast__arrow" type="button" data-cast-next aria-label="Next characters">
+              <img src="assets/icons/arrow-right.svg" alt="">
+            </button>
+          </div>
+
+          <a class="btn t-label-uppercase" href="#">View the cast</a>
+        </div>
+      </section>
+
+      <!-- ===================== APPS ===================== -->
+      <section class="section apps" id="apps" aria-labelledby="apps-title">
+        <div class="art" aria-hidden="true">
+          <img class="art__item" src="assets/art/cat-green.png" alt="" style="--l:61px;--t:82px;--w:96px">
+          <img class="art__item" src="assets/art/clouds-horizontal.png" alt="" style="--c:39px;--t:-75px;--w:515px" data-hide="mobile">
+        </div>
+        <div class="panel-wrap container" style="--container-max: var(--container-diptych)">
+          <div class="art" aria-hidden="true">
+            <img class="art__item" src="assets/art/saturn-icon.png" alt="" style="--l:969px;--t:-69px;--w:127px;--rot:-12.5deg" data-hide="tablet">
+          </div>
+          <div class="panel diptych diptych--right">
+            <div class="diptych__content">
+              <div class="diptych__text">
+                <div class="heading-group c-primary">
+                  <p class="t-overline">Apps</p>
+                  <h2 class="t-h3" id="apps-title">Spin Master App</h2>
+                </div>
+                <p class="t-body-lg c-body">DreamWorks Animation and Gabby’s Dollhouse are going on the road! Head over to participating Walmart locations to join Gabby as she travels across the U.S. on The Bakey with Cakey Tour!</p>
+              </div>
+              <a class="btn t-label-uppercase" href="#">Learn more</a>
+            </div>
+            <div class="diptych__media">
+              <img src="assets/img/apps-preview.png" width="550" height="400" loading="lazy"
+                   alt="Gabby playing ukulele in the music room with Pandy Paws, DJ Catnip and CatRat">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== ACTIVITIES ===================== -->
+      <section class="section activities" id="activities" aria-labelledby="activities-title">
+        <div class="art" aria-hidden="true">
+          <img class="art__item" src="assets/art/star-gold-r.png" alt="" style="--l:-22px;--t:470px;--w:72px;--rot:-30.3deg">
+          <img class="art__item" src="assets/art/clouds-horizontal.png" alt="" style="--r:-290px;--t:210px;--w:391px" data-hide="mobile">
+        </div>
+        <div class="art art--front" aria-hidden="true">
+          <img class="art__item" src="assets/art/clouds-puffy.png" alt="" style="--l:104px;--t:-58px;--w:293px" data-hide="mobile">
+        </div>
+        <div class="container panel panel--wide">
+          <h2 class="t-h2 c-primary" id="activities-title">Activities</h2>
+          <ul class="card-grid">
+            <li class="activity-card">
+              <a href="#">
+                <img src="assets/img/activity-1.png" width="392" height="375" loading="lazy" alt="">
+                <h3 class="t-h5 c-primary">Kitty Pizza</h3>
+              </a>
+            </li>
+            <li class="activity-card">
+              <a href="#">
+                <img src="assets/img/activity-2.png" width="392" height="375" loading="lazy" alt="">
+                <h3 class="t-h5 c-primary">Dollhouse Puzzle</h3>
+              </a>
+            </li>
+            <li class="activity-card">
+              <a href="#">
+                <img src="assets/img/activity-3.png" width="392" height="375" loading="lazy" alt="">
+                <h3 class="t-h5 c-primary">Valentine’s Day Cards</h3>
+              </a>
+            </li>
+          </ul>
+          <a class="btn t-label-uppercase" href="#">Play here</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="section site-footer" id="footer">
+      <div class="art" aria-hidden="true">
+        <img class="art__item" src="assets/art/star-gold.png" alt="" style="--l:200px;--t:185px;--w:47px" data-hide="mobile">
+        <img class="art__item" src="assets/art/clouds-2.png" alt="" style="--l:422px;--t:135px;--w:146px" data-hide="tablet">
+        <img class="art__item" src="assets/art/star-gold.png" alt="" style="--l:485px;--t:228px;--w:83px" data-hide="tablet">
+        <img class="art__item" src="assets/art/star-blue-small.png" alt="" style="--l:328px;--t:311px;--w:36px" data-hide="tablet">
+        <img class="art__item" src="assets/art/star-gold.png" alt="" style="--l:92px;--t:389px;--w:52px" data-hide="mobile">
+        <img class="art__item" src="assets/art/clouds-puffy.png" alt="" style="--l:-21px;--t:456px;--w:443px" data-hide="mobile">
+        <img class="art__item" src="assets/art/clouds-puffy.png" alt="" style="--r:145px;--t:23px;--w:273px" data-hide="mobile">
+        <img class="art__item" src="assets/art/star-blue-small.png" alt="" style="--r:233px;--t:236px;--w:57px" data-hide="mobile">
+        <img class="art__item" src="assets/art/star-blue-small.png" alt="" style="--r:118px;--t:424px;--w:48px" data-hide="mobile">
+      </div>
+      <div class="footer__inner container">
+        <img class="footer__logo" src="assets/icons/logo.svg" width="400" height="140" alt="Gabby's Dollhouse">
+        <nav aria-label="Footer">
+          <ul class="footer__links t-label-uppercase c-inverse">
+            <li><a href="#characters">Characters</a></li>
+            <li><a href="#video">Watch</a></li>
+            <li><a href="#">Music</a></li>
+            <li><a href="#activities">Fun</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#">Grown-Ups</a></li>
+          </ul>
+        </nav>
+        <ul class="footer__social">
+          <li><a href="#" aria-label="Facebook"><img src="assets/icons/social-facebook.svg" alt=""></a></li>
+          <li><a href="#" aria-label="YouTube"><img src="assets/icons/social-youtube.svg" alt="" style="height:24px"></a></li>
+          <li><a href="#" aria-label="Instagram"><img src="assets/icons/social-instagram.svg" alt=""></a></li>
+          <li><a href="#" aria-label="X"><img src="assets/icons/social-x.svg" alt="" style="height:26px"></a></li>
+          <li><a href="#" aria-label="Pinterest"><img src="assets/icons/social-pinterest.svg" alt=""></a></li>
+        </ul>
+        <div class="footer__fineprint t-body-sm c-inverse">
+          <p>@2024 Dreamworks Animation All Rights Reserved.</p>
+          <ul class="footer__legal">
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">CA Notice</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Youtube Terms of Service</a></li>
+            <li><a href="#">Google Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+</body>
+</html>

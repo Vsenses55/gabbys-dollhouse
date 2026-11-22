@@ -1,0 +1,594 @@
+/* ==========================================================================
+   Sections + components
+   Every section owns its background gradient, so the colour band travels
+   with the section when content reflows on mobile. Stops were sampled from
+   the Figma page background artwork (not UI tokens) and chain end-to-start,
+   so the page still reads as one continuous rainbow.
+   ========================================================================== */
+
+:root {
+  --bkg-hero:       linear-gradient(180deg, #7362e3 0%, #a376e7 36%, #c391f0 72%, #e79af2 100%);
+  --bkg-events:     linear-gradient(180deg, #e79af2 0%, #fca5f4 12%, #feb2e0 45%, #ffbfd0 100%);
+  --bkg-video:      linear-gradient(180deg, #ffbfd0 0%, #ffc8b8 45%, #fbee7a 82%, #fbf06f 100%);
+  --bkg-episodes:   linear-gradient(180deg, #fbf06f 0%, #f6f66e 40%, #d8f482 62%, #a9f1a2 100%);
+  --bkg-characters: linear-gradient(180deg, #a9f1a2 0%, #88f2bd 37%, #6fe3ea 60%, #6ce1f9 100%);
+  --bkg-apps:       linear-gradient(180deg, #6ce1f9 0%, #6ccefe 52%, #70c0fe 100%);
+  --bkg-activities: linear-gradient(180deg, #70c0fe 0%, #75abfe 18%, #7597f6 55%, #7480ed 100%);
+  --bkg-footer:     linear-gradient(180deg, #7480ed 0%, #7266e3 62%, #5b38e0 100%);
+}
+
+/* ---------- Section shell ---------- */
+.section {
+  position: relative;
+  isolation: isolate;
+  overflow-x: clip;     /* art may bleed vertically into neighbours, never sideways */
+  background: var(--bkg, transparent);
+}
+.section > .container,
+.section > .panel-wrap { position: relative; z-index: 1; }
+
+/* ---------- Decorative art slots ----------
+   Positions come straight from the 1680px Figma frame:
+     --l  offset from the section's left edge
+     --r  offset from the section's right edge
+     --c  offset of the item's left edge from the section centre
+     --t  offset from the section top
+   Art is aria-hidden and never takes clicks. Add/remove items freely. */
+.art {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.art--front { z-index: 2; }
+.art__item {
+  position: absolute;
+  top: var(--t, 0);
+  left: var(--l, auto);
+  right: var(--r, auto);
+  width: var(--w);
+  height: auto;
+  max-width: none;
+  transform: rotate(var(--rot, 0deg)) scaleY(var(--sy, 1));
+}
+.art__item[style*="--c"] { left: calc(50% + var(--c)); }
+
+/* Anchor art to a panel instead of the section edges */
+.panel-wrap { position: relative; }
+.panel-wrap > .art { z-index: 2; }
+
+/* data-hide levels: laptop ≤1439, stacked ≤1239 (hero stacks, nav collapses),
+   tablet ≤1023, mobile ≤767. Each level also hides everything above it. */
+@media (max-width: 1439px) {
+  .art__item[data-hide="laptop"] { display: none; }
+}
+@media (max-width: 1239px) {
+  .art__item[data-hide="stacked"] { display: none; }
+}
+@media (max-width: 1023px) {
+  .art__item { width: calc(var(--w) * 0.7); }
+  .art__item[data-hide="tablet"], .art__item[data-hide="stacked"], .art__item[data-hide="laptop"] { display: none; }
+}
+@media (max-width: 767px) {
+  .art__item { width: calc(var(--w) * 0.5); }
+  .art__item[data-hide] { display: none; }
+}
+
+/* ==========================================================================
+   Navigation (Menu Bar + Logo Nav)
+   ========================================================================== */
+.site-header {
+  position: absolute;   /* overlays the hero so the hero owns the gradient behind it */
+  top: 0; left: 0; right: 0;
+  z-index: 20;
+  padding-top: 46px;
+}
+.site-header__bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--px-30);
+}
+.logo { display: block; width: 250px; }
+.logo img { width: 100%; height: auto; }
+
+.nav__toggle { display: none; }
+
+.menu-bar {
+  --container-max: var(--container-nav);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--px-10);
+  min-height: 65px;
+  padding: var(--px-9) var(--px-11, 11px);
+  background: var(--surface-navigation);
+  border-radius: var(--radius-md); /* Figma: 40 */
+}
+.menu-bar > li { position: relative; }
+
+/* Menu item pill. 21px/18px matches the Figma nav exactly; it sits outside
+   the type scale (nav uses literal values there), flagged in README. */
+.nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--px-10);
+  height: 47px;
+  padding: 0 var(--px-20) 0 55px;
+  border-radius: var(--radius-xs);
+  background: var(--control-navigation-muted);
+  color: var(--text-primary);
+  font-weight: 800;
+  font-size: 21px;
+  line-height: 18px;
+  letter-spacing: -0.25px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.nav-link__icon {
+  position: absolute;
+  left: var(--px-4);
+  top: var(--px-4);
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  object-position: left top;
+}
+.nav-link__caret { width: 14px; height: 13px; }
+.nav-link__caret--active { display: none; }
+
+.nav-link:hover,
+.nav-link[aria-expanded="true"],
+.nav-link[aria-current="page"] {
+  background: var(--control-navigation-active);
+  color: var(--text-inverse);
+}
+.nav-link:hover .nav-link__caret--idle,
+.nav-link[aria-expanded="true"] .nav-link__caret--idle { display: none; }
+.nav-link:hover .nav-link__caret--active,
+.nav-link[aria-expanded="true"] .nav-link__caret--active { display: block; }
+.nav-link:not([aria-expanded="true"]) .nav-link__caret--active { transform: rotate(180deg); } /* white caret asset points up (open state) */
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + var(--px-12));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--px-20);
+  padding: var(--px-30) var(--px-40);
+  background: var(--surface-dropdown);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-weight: 800;
+  font-size: var(--px-18);
+  line-height: var(--px-20);
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+}
+.dropdown[hidden] { display: none; }
+.dropdown a:hover { color: var(--text-primary); text-decoration: underline; text-underline-offset: 4px; }
+
+/* Collapsed navigation (menu bar no longer fits) */
+@media (max-width: 1239px) {
+  .site-header { padding-top: var(--px-24); }
+  .site-header__bar { flex-direction: row; justify-content: space-between; gap: var(--px-16); }
+  .logo { width: 180px; }
+  .nav__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--px-8);
+    min-height: var(--px-48);
+    padding: 0 var(--px-20);
+    border-radius: var(--radius-xs);
+    background: var(--surface-navigation);
+    color: var(--text-primary);
+  }
+  .nav__toggle-bars { display: grid; gap: 4px; }
+  .nav__toggle-bars span { display: block; width: 20px; height: 3px; border-radius: 2px; background: currentColor; }
+
+  .menu-bar {
+    position: absolute;
+    top: calc(100% + var(--px-12));
+    left: var(--gutter);
+    right: var(--gutter);
+    width: auto;
+    margin: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--px-10);
+    padding: var(--px-16);
+    border-radius: var(--radius-md);
+    box-shadow: 0 12px 40px rgba(56, 93, 171, 0.25);
+  }
+  .site-header:not(.is-open) .menu-bar { display: none; }
+  .nav-link { height: 52px; width: 100%; }
+  .dropdown {
+    position: static;
+    transform: none;
+    margin-top: var(--px-10);
+    align-items: flex-start;
+    padding: var(--px-20) var(--px-24);
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.hero {
+  --bkg: url("../assets/art/bkg-stars.png") center top / max(100%, 1680px) auto no-repeat, var(--bkg-hero);
+}
+.hero__inner {
+  --container-max: var(--container-wide);
+  display: grid;
+  grid-template-columns: minmax(0, 700px) minmax(0, 1fr);
+  align-items: start;
+  padding-top: 300px;           /* art top in Figma; nav sits over this space */
+  padding-left: 29px;           /* art left: 159px (container starts at 130px) */
+}
+.hero__art { width: 100%; height: auto; }
+.hero__copy {
+  width: 614px;
+  max-width: 100%;
+  margin-top: 129px;            /* copy top: 429px in Figma */
+  margin-left: -47px;           /* copy starts at 812px; slight overlap with the art */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--px-12);
+  text-align: center;
+  position: relative;
+}
+.hero__title { width: 624px; max-width: calc(100vw - 2 * var(--gutter)); }
+.hero__lead { max-width: 582px; }
+
+@media (max-width: 1239px) {
+  .hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    padding-top: 140px;         /* collapsed header height + breathing room */
+    padding-left: 0;
+  }
+  .hero__copy { order: -1; width: auto; margin: 0 0 var(--px-24); }
+  .hero__title { width: auto; }
+  .hero__art { max-width: 640px; }
+}
+
+/* ==========================================================================
+   Container panels (Color/surface/container)
+   ========================================================================== */
+.panel {
+  background: var(--surface-container);
+  border-radius: var(--radius-5xl);
+}
+
+/* Diptych (Container Left / Right Diptych) */
+.diptych {
+  --container-max: var(--container-diptych);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--px-60);
+  padding: 53px var(--px-48);
+}
+.diptych--right {
+  --container-angle: 65.616deg;
+  justify-content: space-between;
+  column-gap: 0;
+  padding-left: var(--px-80);
+}
+.diptych__media {
+  flex: 0 1 544px;
+  min-width: min(350px, 100%);
+}
+.diptych--right .diptych__media { flex-basis: 550px; }
+.diptych__media img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 544 / 400;
+  object-fit: cover;
+  border-radius: var(--radius-2xl);
+}
+.diptych--right .diptych__media img { aspect-ratio: 550 / 400; }
+.diptych__content {
+  flex: 1 1 350px;
+  min-width: min(350px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--px-24);
+}
+.diptych--right .diptych__content { padding-right: var(--px-36); }
+.diptych__text { display: flex; flex-direction: column; gap: var(--px-16); padding-right: var(--px-24); }
+.heading-group { display: flex; flex-direction: column; gap: var(--px-8); }
+
+@media (max-width: 1099px) {
+  .diptych, .diptych--right { gap: var(--px-32); padding: var(--px-40); }
+  .diptych__media, .diptych--right .diptych__media { flex: 1 1 100%; }
+  .diptych--right .diptych__media { order: -1; }
+  .diptych__text, .diptych--right .diptych__content { padding-right: 0; }
+}
+@media (max-width: 767px) {
+  .diptych, .diptych--right { gap: var(--px-24); padding: var(--px-20) var(--px-20) var(--px-32); }
+  .diptych__content { padding-inline: var(--px-8); }
+}
+
+/* 3-column panels (Container 3-Column Info Cards / Preview) */
+.panel--wide {
+  --container-max: var(--container-wide);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--px-36);
+  padding: var(--px-96);
+}
+.card-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--px-24);
+}
+@media (max-width: 1239px) {
+  .panel--wide { padding: var(--px-64) var(--px-48); }
+}
+@media (max-width: 899px) {
+  .card-grid { grid-template-columns: minmax(0, 480px); justify-content: center; gap: var(--px-40); }
+}
+@media (max-width: 767px) {
+  .panel--wide { padding: var(--px-40) var(--px-20); gap: var(--px-24); }
+}
+
+/* ==========================================================================
+   Events
+   ========================================================================== */
+.events { --bkg: var(--bkg-events); }
+
+/* ==========================================================================
+   Video
+   ========================================================================== */
+.video { --bkg: var(--bkg-video); padding: 107px 0 109px; }
+.video-frame {
+  --container-max: var(--container-video);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: var(--px-24);
+  background: var(--surface-default);
+  border-radius: var(--radius-3xl);
+  text-align: center;
+}
+.video-player {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 700 / 393;
+  border: 13px solid var(--border-inverse);
+  border-radius: var(--radius-2xl); /* Figma: 78 */
+  background: var(--surface-media);
+  overflow: hidden;
+}
+.video-player img { width: 100%; height: 100%; object-fit: cover; }
+.video-player::after { /* inner glow from Figma */
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 50px 0 rgba(118, 228, 255, 0.7);
+  pointer-events: none;
+}
+.video-player__play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 142px;
+  height: 142px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  transition: transform 0.15s ease;
+}
+.video-player__play:hover { transform: translate(-50%, -50%) scale(1.05); }
+.video-player__play img { width: 100%; height: 100%; }
+.video-frame__overline { margin-top: 6px; }
+.video-frame__title { max-width: 428px; }
+
+@media (max-width: 767px) {
+  .video { padding: var(--px-64) 0; }
+  .video-player { border-width: 8px; }
+  .video-player__play { width: 80px; height: 80px; }
+  .video-frame { padding-inline: var(--px-16); }
+}
+
+/* ==========================================================================
+   Recent Episodes
+   ========================================================================== */
+.episodes { --bkg: var(--bkg-episodes); padding-bottom: var(--px-8); }
+.episodes .panel { --container-angle: 71.141deg; }
+.panel__header {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--px-10) var(--px-24);
+}
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--px-10);
+  padding: var(--px-12) var(--px-20);
+  border-radius: var(--radius-lg);
+  color: var(--text-accent);
+}
+.text-link img { width: 8px; height: 12px; }
+.text-link:hover { color: var(--text-primary); }
+
+.panel--wide > .panel__row { width: 100%; display: flex; flex-direction: column; gap: var(--px-24); }
+
+.episode-card { display: flex; flex-direction: column; gap: var(--px-24); }
+.episode-card__image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 392 / 221;
+  object-fit: cover;
+  border-radius: var(--px-24); /* literal 24 in Figma */
+}
+.episode-card__body { display: flex; flex-direction: column; align-items: flex-start; gap: var(--px-24); }
+.episode-card__header { display: flex; flex-direction: column; gap: var(--px-12); }
+
+/* ==========================================================================
+   Characters
+   ========================================================================== */
+.characters {
+  --bkg: var(--bkg-characters);
+  padding: 42px 0 99px;
+  text-align: center;
+}
+.characters__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.characters__feature {
+  position: relative;
+  width: 480px;
+  max-width: 100%;
+}
+.characters__rays {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 878px;
+  max-width: none;
+  transform: translateX(calc(-50% - 10px));
+  pointer-events: none;
+}
+.characters__hero-img { position: relative; z-index: 2; width: 100%; height: auto; }
+
+.profile {
+  --container-max: var(--container-profile);
+  position: relative;
+  z-index: 1;
+  margin-top: -25px;   /* Cakey overlaps the panel top by 25px in Figma */
+  padding: 35px 46px 31px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface-profile);
+  border-radius: var(--radius-xl);
+}
+.profile__text { max-width: 893px; }
+
+.cast {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--px-40);
+  margin-top: 38px;
+  max-width: 100%;
+}
+.cast__arrow {
+  flex: none;
+  width: 75px;
+  height: 59px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-xs);
+}
+.cast__arrow img { width: 75px; height: 59px; }
+.cast__arrow[data-cast-next] img { transform: scaleX(-1); }  /* Figma mirrors the same arrow */
+.cast__arrow:hover img { transform: scale(1.06); }
+.cast__arrow[data-cast-next]:hover img { transform: scaleX(-1) scale(1.06); }
+.cast__viewport { overflow: hidden; max-width: calc(174px * 3 + 40px * 2); }
+.cast__list { display: flex; gap: var(--px-40); }
+.cast__item { flex: none; width: 174px; }
+.cast__item a { display: flex; flex-direction: column; align-items: center; gap: 9px; border-radius: var(--radius-sm); }
+.cast__item img { width: 174px; height: 174px; object-fit: contain; transition: transform 0.2s ease; }
+.cast__item a:hover img { transform: translateY(-6px); }
+.characters .btn { margin-top: 49px; }
+
+@media (max-width: 767px) {
+  .characters { padding-bottom: var(--px-64); }
+  .characters__feature { width: 280px; }
+  .characters__rays { width: 520px; }
+  .profile { padding: var(--px-24) var(--px-20); }
+  .cast { gap: var(--px-12); }
+  .cast__arrow, .cast__arrow img { width: 44px; height: 35px; }
+  .cast__list { gap: var(--px-16); }
+  .cast__viewport { max-width: calc(120px * 2 + 16px); }
+  .cast__item, .cast__item img { width: 120px; }
+  .cast__item img { height: 120px; }
+  .characters .btn { margin-top: var(--px-32); }
+}
+
+/* ==========================================================================
+   Apps
+   ========================================================================== */
+.apps { --bkg: var(--bkg-apps); padding-bottom: 108px; }
+
+/* ==========================================================================
+   Activities
+   ========================================================================== */
+.activities { --bkg: var(--bkg-activities); }
+.activities .panel { --container-angle: 72.324deg; }
+.activities .card-grid { padding-bottom: var(--px-24); }
+.activity-card { display: flex; flex-direction: column; align-items: center; gap: var(--px-24); text-align: center; }
+.activity-card img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 392 / 375;
+  object-fit: cover;
+  border-radius: var(--radius-xl);
+  transition: transform 0.2s ease;
+}
+.activity-card a { display: contents; }
+.activity-card:hover img { transform: translateY(-4px); }
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.site-footer {
+  --bkg: var(--bkg-footer);
+  padding: 72px 0 62px;
+}
+.footer__inner {
+  --container-max: 749px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--px-30);
+  padding: 50px 0;
+  text-align: center;
+}
+.footer__logo { width: 400px; max-width: 100%; margin-bottom: 69px; } /* logo box is 209px tall in Figma */
+.footer__links, .footer__social, .footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.footer__links { gap: var(--px-12) var(--px-28); }
+.footer__social { gap: var(--px-28); }
+.footer__social a { display: grid; place-items: center; min-width: 44px; min-height: 44px; }
+.footer__social img { height: 30px; width: auto; }
+.footer__fineprint { display: flex; flex-direction: column; gap: 19px; }
+.footer__legal { gap: var(--px-8) var(--px-30); }
+.footer__links a:hover, .footer__legal a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+@media (max-width: 767px) {
+  .site-footer { padding: var(--px-48) 0 var(--px-96); }
+  .footer__logo { width: 240px; margin-bottom: var(--px-16); }
+  .footer__links { gap: var(--px-12) var(--px-20); }
+  .footer__legal { gap: var(--px-8) var(--px-20); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}

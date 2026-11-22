@@ -1,0 +1,135 @@
+/* ==========================================================================
+   Gabby's Dollhouse — design tokens
+   Source of truth: Figma file ccACqrfeVeWoJB4znElELQ (Homepage 11:18080)
+   Mirrors the Figma dependency chain:
+     1. Primitives (raw px + raw colors)
+     2. Semantic tokens (alias primitives)
+     3. Typography roles / radius (Desktop + Mobile modes)
+   Figma "modes" map to a media query here. The 767px switch point is an
+   implementation choice (no breakpoint is approved in the design system).
+   ========================================================================== */
+
+:root {
+  /* ---------- 1. Primitives: units pixels/{value} ---------- */
+  --px-0: 0px;     --px-2: 2px;     --px-4: 4px;     --px-8: 8px;
+  --px-9: 9px;     --px-10: 10px;   --px-12: 12px;   --px-14: 14px;
+  --px-16: 16px;   --px-18: 18px;   --px-20: 20px;   --px-24: 24px;
+  --px-25: 25px;   --px-28: 28px;   --px-30: 30px;   --px-32: 32px;
+  --px-36: 36px;   --px-39: 39px;   --px-40: 40px;   --px-44: 44px;
+  --px-48: 48px;   --px-50: 50px;   --px-56: 56px;   --px-60: 60px;
+  --px-64: 64px;   --px-72: 72px;   --px-78: 78px;   --px-80: 80px;
+  --px-88: 88px;   --px-96: 96px;   --px-100: 100px; --px-104: 104px;
+  --px-112: 112px; --px-120: 120px; --px-128: 128px; --px-160: 160px;
+  --px-192: 192px; --px-256: 256px;
+  --px-pill: 9999px; /* radius sentinel only */
+
+  /* ---------- 1. Primitives: color ---------- */
+  --color-neutral-white: #ffffff;
+  --color-neutral-cool: #f8fcff;
+  --color-cyan-media: #e0ffff;
+  --color-teal-strong: #07929a;
+  --color-cyan-tint: #d7fbff;
+  --color-cyan-bright: #3cc9f0;
+  --color-cyan-muted: #c2e8f1;
+  --color-blue-strong: #385dab;
+  --color-blue-medium: #5171b5;
+  --color-neutral-gray: #727274;
+  --color-neutral-gray-2: #727274; /* authored slightly differently in Figma; kept separate */
+  --color-cyan-soft: #c7eef8;
+
+  /* ---------- 2. Semantic color ---------- */
+  --surface-default: var(--color-neutral-white);
+  --surface-navigation: var(--color-neutral-white);
+  --surface-dropdown: var(--color-neutral-cool);
+  --surface-media: var(--color-cyan-media);
+  --surface-profile: var(--color-teal-strong);
+  --surface-container-start: var(--color-neutral-white);
+  --surface-container-end: var(--color-cyan-tint);
+  --control-primary: var(--color-cyan-bright);
+  --control-navigation-active: var(--color-cyan-bright);
+  --control-navigation-muted: var(--color-cyan-muted);
+  --text-primary: var(--color-blue-strong);
+  --text-secondary: var(--color-blue-medium);
+  --text-body: var(--color-neutral-gray);
+  --text-body-detail: var(--color-neutral-gray-2);
+  --text-inverse: var(--color-neutral-white);
+  --text-on-profile: var(--color-cyan-soft);
+  --text-accent: var(--color-cyan-bright);
+  --icon-accent: var(--color-cyan-bright);
+  --icon-inverse: var(--color-neutral-white);
+  --border-inverse: var(--color-neutral-white);
+
+  /* Color/surface/container — stops are exact; the angle is per component
+     (Figma derives it from each layer's transform), so components pass
+     --container-angle. */
+  --container-angle: 65.616deg;
+  --surface-container: linear-gradient(
+    var(--container-angle),
+    var(--surface-container-start) 1.253%,
+    var(--surface-container-end) 99.542%
+  );
+
+  /* ---------- 3. Radius (Desktop mode) ---------- */
+  --radius-none: var(--px-0);
+  --radius-xs: var(--px-18);
+  --radius-sm: var(--px-24);
+  --radius-md: var(--px-40);
+  --radius-lg: var(--px-50);
+  --radius-xl: var(--px-60);
+  --radius-2xl: var(--px-78);
+  --radius-3xl: var(--px-80);
+  --radius-4xl: var(--px-100);
+  --radius-5xl: var(--px-120);
+
+  /* ---------- 3. Typography (Desktop mode) ----------
+     Line height and tracking are explicit px, never multipliers. */
+  --font-family: "Montserrat", system-ui, sans-serif;
+
+  --type-h1-size: var(--px-60);   --type-h1-lh: var(--px-64);  --type-h1-weight: 800; --type-h1-track: -1px;
+  --type-h2-size: var(--px-48);   --type-h2-lh: var(--px-56);  --type-h2-weight: 800; --type-h2-track: -0.5px;
+  --type-h3-size: var(--px-36);   --type-h3-lh: var(--px-44);  --type-h3-weight: 800; --type-h3-track: -0.5px;
+  --type-h4-size: var(--px-28);   --type-h4-lh: var(--px-36);  --type-h4-weight: 800; --type-h4-track: 0px;
+  --type-h5-size: var(--px-24);   --type-h5-lh: var(--px-32);  --type-h5-weight: 700; --type-h5-track: 0px;
+  --type-h6-size: var(--px-20);   --type-h6-lh: var(--px-28);  --type-h6-weight: 700; --type-h6-track: 0px;
+  --type-body-lg-size: var(--px-18); --type-body-lg-lh: var(--px-28); --type-body-lg-weight: 400; --type-body-lg-track: 0px;
+  --type-body-size: var(--px-16);    --type-body-lh: var(--px-24);    --type-body-weight: 400;    --type-body-track: 0px;
+  --type-body-sm-size: var(--px-14); --type-body-sm-lh: var(--px-20); --type-body-sm-weight: 400; --type-body-sm-track: 0px;
+  --type-caption-size: var(--px-12); --type-caption-lh: var(--px-16); --type-caption-weight: 400; --type-caption-track: 0px;
+  --type-label-size: var(--px-16);   --type-label-lh: var(--px-24);   --type-label-weight: 800;   --type-label-track: 0px;
+  --type-overline-size: var(--px-14); --type-overline-lh: var(--px-20); --type-overline-weight: 800; --type-overline-track: 1px;
+
+  /* ---------- Layout (desktop container sizes from Figma = max widths) ---------- */
+  --stage-width: 1680px;        /* reference frame, not a fixed page width */
+  --container-wide: 1420px;     /* 3-column panels */
+  --container-diptych: 1224px;  /* left/right diptych panels */
+  --container-nav: 1181px;      /* menu bar */
+  --container-profile: 986px;   /* character profile panel */
+  --container-video: 700px;     /* video frame */
+  --gutter: var(--px-24);       /* page side padding once the viewport is narrower than a container */
+}
+
+/* ---------- Mobile mode (Typography + Radius collections) ---------- */
+@media (max-width: 767px) {
+  :root {
+    --radius-xs: var(--px-9);
+    --radius-sm: var(--px-12);
+    --radius-md: var(--px-20);
+    --radius-lg: var(--px-25);
+    --radius-xl: var(--px-30);
+    --radius-2xl: var(--px-39);
+    --radius-3xl: var(--px-40);
+    --radius-4xl: var(--px-50);
+    --radius-5xl: var(--px-60);
+
+    --type-h1-size: var(--px-36); --type-h1-lh: var(--px-40); --type-h1-track: -0.5px;
+    --type-h2-size: var(--px-32); --type-h2-lh: var(--px-40); --type-h2-track: -0.5px;
+    --type-h3-size: var(--px-28); --type-h3-lh: var(--px-36); --type-h3-track: -0.25px;
+    --type-h4-size: var(--px-24); --type-h4-lh: var(--px-32);
+    --type-h5-size: var(--px-20); --type-h5-lh: var(--px-28);
+    --type-h6-size: var(--px-18); --type-h6-lh: var(--px-24);
+    --type-label-size: var(--px-14); --type-label-lh: var(--px-20);
+    --type-overline-size: var(--px-12); --type-overline-lh: var(--px-16);
+
+    --gutter: var(--px-16);
+  }
+}
