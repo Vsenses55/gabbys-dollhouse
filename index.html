@@ -257,28 +257,30 @@
         </div>
 
         <div class="characters__stage container">
-          <div class="characters__feature">
+          <!-- Character carousel: data lives in js/main.js (CHARACTERS). This markup is the
+               no-JS first render and gets rebuilt from that list. -->
+          <div class="characters__feature" data-feature aria-live="polite">
             <img class="characters__rays" src="assets/img/rays.png" alt="" aria-hidden="true">
-            <img class="characters__hero-img" src="assets/img/char-cakey.png" width="480" height="480" loading="lazy" alt="Cakey Cat, a smiling kitty cupcake with rainbow sprinkles">
+            <img class="characters__hero-img" data-feature-img src="assets/img/characters/cakey-cake.webp" width="480" height="480" loading="lazy" alt="Cakey Cat, a smiling kitty cupcake with rainbow sprinkles">
           </div>
 
-          <div class="profile container">
-            <h2 class="t-h2 c-on-profile" id="characters-title">Cakey Cake</h2>
-            <p class="profile__text t-body-lg c-on-profile">Half kitty, half cupcake, Cakey Cat is the easily-excitable cupcake in the kitchen! Spunky yet sensitive, Cakey can go from super happy to really worried in the blink of an eye. Keep an eye out for his sprinkles, because they’ll let you know exactly what he’s feeling.</p>
+          <div class="profile container" data-feature-text>
+            <h2 class="t-h2 c-on-profile" id="characters-title" data-feature-name>Cakey Cake</h2>
+            <p class="profile__text t-body-lg c-on-profile" data-feature-bio>Half kitty, half cupcake, Cakey Cat is the easily-excitable cupcake in the kitchen! Spunky yet sensitive, Cakey can go from super happy to really worried in the blink of an eye. Keep an eye out for his sprinkles, because they’ll let you know exactly what he’s feeling.</p>
           </div>
 
           <div class="cast" data-cast>
-            <button class="cast__arrow" type="button" data-cast-prev aria-label="Previous characters">
+            <button class="cast__arrow" type="button" data-cast-prev aria-label="Previous character">
               <img src="assets/icons/arrow-left.svg" alt="">
             </button>
             <div class="cast__viewport">
               <ul class="cast__list" data-cast-list>
-                <li class="cast__item"><a href="#"><img src="assets/img/char-mercat.png" width="174" height="174" loading="lazy" alt=""><span class="t-label c-inverse">MERCAT</span></a></li>
-                <li class="cast__item"><a href="#"><img src="assets/img/char-pandy.png" width="174" height="174" loading="lazy" alt=""><span class="t-label c-inverse">PANDY PAWS</span></a></li>
-                <li class="cast__item"><a href="#"><img src="assets/img/char-mamabox.png" width="174" height="174" loading="lazy" alt=""><span class="t-label c-inverse">MAMA BOX</span></a></li>
+                <li class="cast__item"><button type="button" data-character="mercat"><img src="assets/img/characters/mercat.webp" width="174" height="174" loading="lazy" alt=""><span class="t-label c-inverse">MERCAT</span></button></li>
+                <li class="cast__item"><button type="button" data-character="pandy-paws"><img src="assets/img/characters/pandy-paws.webp" width="174" height="174" loading="lazy" alt=""><span class="t-label c-inverse">PANDY PAWS</span></button></li>
+                <li class="cast__item"><button type="button" data-character="baby-box"><img src="assets/img/characters/baby-box.webp" width="174" height="174" loading="lazy" alt=""><span class="t-label c-inverse">BABY BOX</span></button></li>
               </ul>
             </div>
-            <button class="cast__arrow" type="button" data-cast-next aria-label="Next characters">
+            <button class="cast__arrow" type="button" data-cast-next aria-label="Next character">
               <img src="assets/icons/arrow-right.svg" alt="">
             </button>
           </div>

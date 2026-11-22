@@ -63,5 +63,5 @@ Every section has an `.art` layer (`aria-hidden`, doesn't block clicks). Items a
 - **Nav type size** is 21px/18px in Figma, which is outside the type scale. It's matched exactly here and flagged.
 - **Dropdown items** come from the Figma Resources page: Watch = Where to Watch / Videos / Episodes, Fun = 6 items, Grown-Ups = Shop / Partners / Subscribe. On desktop the menus open on hover or click. On smaller screens they open on tap.
 - **Bubbles:** a separate bubble animation will be added later, so the bubble artwork from the Figma background isn't included.
-- **Character carousel:** placeholder cast for now, to be filled in once the character assets arrive.
+- **Character carousel:** data-driven. The `CHARACTERS` list in `js/main.js` holds each character's name, image, alt text and bio. Add an entry there and it joins the rotation automatically.
 - **Image resolution:** assets were exported at 1×. Re-export the content imagery at 2× for retina before final deployment.
