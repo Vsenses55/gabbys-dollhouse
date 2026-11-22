@@ -281,6 +281,13 @@
   .hero__art { max-width: 640px; }
 }
 
+/* Mobile hero: logo → artwork → heading/copy */
+@media (max-width: 767px) {
+  .logo { width: 220px; }       /* a bit under the 250px desktop logo */
+  .hero__inner { padding-top: 124px; }   /* header ends ~100px; ~24px of separation */
+  .hero__copy { order: 0; margin: var(--px-16) 0 var(--px-32); }
+}
+
 /* ==========================================================================
    Container panels (Color/surface/container)
    ========================================================================== */
