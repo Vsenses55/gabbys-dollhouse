@@ -581,6 +581,7 @@
    ========================================================================== */
 .site-footer {
   --bkg: var(--bkg-footer);
+  overflow: clip;       /* the bottom cloud gets cut off by the page edge */
   padding: 72px 0 62px;
 }
 .footer__inner {
@@ -605,7 +606,19 @@
 .footer__social img { height: 30px; width: auto; }
 .footer__fineprint { display: flex; flex-direction: column; gap: 19px; }
 .footer__legal { gap: var(--px-8) var(--px-30); }
-.footer__links a:hover, .footer__legal a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.footer__links a, .footer__legal a { transition: color 0.15s ease; }
+.footer__links a:hover, .footer__legal a:hover { color: var(--text-on-profile); }
+
+/* Floating bubbles (js/bubbles.js) — behind the footer content, softened into the gradient */
+.bubbles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.8;
+}
 
 @media (max-width: 767px) {
   .site-footer { padding: var(--px-48) 0 var(--px-96); }
