@@ -83,8 +83,8 @@ async function init(host) {
         vec3 film = 0.5 + 0.5 * cos(6.2831 * (fres * 1.4 + vec3(0.0, 0.33, 0.67)) + uTime * 0.6);
         // small window highlight, upper left
         float spec = pow(max(dot(n, normalize(vec3(-0.45, 0.55, 0.7))), 0.0), 48.0);
-        gl_FragColor.rgb = mix(gl_FragColor.rgb, film, 0.55 * fres) + spec * 0.9;
-        gl_FragColor.a = clamp(fres * 0.9 + spec * 0.8, 0.0, 1.0);`);
+        gl_FragColor.rgb = mix(gl_FragColor.rgb, film, 0.8 * fres) * 0.85 + spec * 0.6; // tinted rim, less white
+        gl_FragColor.a = clamp(fres * 0.5 + spec * 0.5, 0.0, 1.0);`);
   };
 
   const geometry = new THREE.SphereGeometry(1, 48, 48);
@@ -98,7 +98,7 @@ async function init(host) {
   const rand = (a, b) => a + Math.random() * (b - a);
 
   function reset(b, initial) {
-    b.size = rand(0.18, isSmall() ? 0.45 : 0.6);
+    b.size = rand(0.08, isSmall() ? 0.22 : 0.3);
     b.x = rand(-viewW / 2, viewW / 2);
     b.y = initial ? rand(-viewH / 2, viewH / 2) : -viewH / 2 - b.size - rand(0, 1.5);
     b.speed = rand(0.35, 0.8);
