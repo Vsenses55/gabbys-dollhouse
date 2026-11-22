@@ -90,6 +90,12 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* ---------- Button Blue ---------- */
 .btn {
+  /* Figma Button Blue label: Montserrat ExtraBold 21/18, -0.25 tracking, uppercase, cap-trimmed */
+  font-weight: 800;
+  font-size: 21px;
+  line-height: 18px;
+  letter-spacing: -0.25px;
+  text-transform: uppercase;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -105,5 +111,5 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .btn:active { transform: translateY(0); }
 
 @media (max-width: 767px) {
-  .btn { min-height: var(--px-48); padding: var(--px-12) var(--px-20); }
+  .btn { min-height: var(--px-48); padding: var(--px-12) var(--px-20); font-size: 17px; }
 }
