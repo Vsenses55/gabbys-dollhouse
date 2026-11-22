@@ -611,7 +611,8 @@
 .footer__links a, .footer__legal a { transition: color 0.15s ease; }
 .footer__links a:hover, .footer__legal a:hover { color: var(--text-on-profile); }
 
-/* Floating bubbles (js/bubbles.js) — behind the footer content, softened into the gradient */
+/* Floating bubbles (js/bubbles.js) — behind the section content, softened into the gradient.
+   Add data-bubbles to any .section to use them there. */
 .bubbles {
   position: absolute;
   inset: 0;

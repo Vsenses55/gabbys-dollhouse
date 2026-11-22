@@ -1,9 +1,9 @@
-// Footer bubbles — soap bubbles that float up once the footer scrolls into view.
+// Bubbles — soap bubbles that float up through the [data-bubbles] section (Characters) once it scrolls into view.
 // Vanilla Three.js port of the R3F sandbox (MeshDistortMaterial + iridescence):
 //   - MeshPhysicalMaterial with iridescence + clearcoat, lit by RoomEnvironment
 //   - vertex wobble stands in for drei's `distort`
 //   - fresnel alpha keeps the centre clear and the rim bright, so they read as soap film
-// Three.js is only downloaded when the footer is near, and the loop pauses off-screen.
+// Three.js is only downloaded when the section is near, and the loop pauses off-screen.
 
 const footer = document.querySelector('[data-bubbles]');
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -94,11 +94,12 @@ async function init(host) {
   const count = isSmall() ? 7 : 14;
   const bubbles = [];
   let viewW = 1, viewH = 1;
+  const pxToWorld = () => viewH / Math.max(host.clientHeight, 1);
 
   const rand = (a, b) => a + Math.random() * (b - a);
 
   function reset(b, initial) {
-    b.size = rand(0.08, isSmall() ? 0.22 : 0.3);
+    b.size = rand(8, isSmall() ? 23 : 31) * pxToWorld(); // radius in CSS px, so size is the same in any section height
     b.x = rand(-viewW / 2, viewW / 2);
     b.y = initial ? rand(-viewH / 2, viewH / 2) : -viewH / 2 - b.size - rand(0, 1.5);
     b.speed = rand(0.35, 0.8);
