@@ -52,6 +52,9 @@
   transform: rotate(var(--rot, 0deg)) scaleY(var(--sy, 1));
 }
 .art__item[style*="--c"] { left: calc(50% + var(--c)); }
+.art__item--bottom { top: auto; bottom: var(--b, 0); }
+.art__item[data-only="mobile"] { display: none; }
+@media (max-width: 767px) { .art .art__item[data-only="mobile"] { display: block; width: var(--w); } } /* already mobile-sized: no 50% scale */
 
 /* Anchor art to a panel instead of the section edges.
    .art inside .panel-wrap sits in front of the panel; add .art--back to tuck it behind. */
@@ -193,12 +196,15 @@
     transform: translateY(-50%);
     display: inline-grid;
     place-items: center;
-    width: var(--px-48);
-    height: var(--px-48);
-    border-radius: var(--radius-xs);
-    background: var(--surface-navigation);
+    width: 60px;
+    height: 58px;
+    padding-top: 12px;          /* centre the bars in the cat's face, below the ears */
+    background: url("../assets/icons/menu-cat.svg") center / contain no-repeat; /* cat-shaped container */
     color: var(--text-primary);
+    filter: drop-shadow(0 4px 10px rgba(56, 93, 171, 0.25));
+    transition: transform 0.15s ease;
   }
+  .nav__toggle:hover { transform: translateY(-50%) rotate(-4deg); }
   .nav__toggle-bars { display: grid; gap: 4px; }
   .nav__toggle-bars span { display: block; width: 20px; height: 3px; border-radius: 2px; background: currentColor; }
 
@@ -284,10 +290,11 @@
 /* Mobile hero: menu icon on its own row → logo → artwork → heading/copy */
 @media (max-width: 767px) {
   .site-header { padding-top: var(--px-12); }
-  .site-header__bar { padding-top: 56px; }            /* menu icon row (48px) + 8px */
+  .site-header__bar { padding-top: 64px; }            /* cat menu row (58px) + 6px */
   .nav__toggle { top: 0; transform: none; }
+  .nav__toggle:hover { transform: rotate(-4deg); }
   .logo { width: 220px; }                             /* a bit under the 250px desktop logo */
-  .hero__inner { padding-top: 160px; }                /* logo ends ~145px; ~16px separation */
+  .hero__inner { padding-top: 168px; }                /* logo ends ~153px; ~16px separation */
   .hero__copy { order: 0; gap: var(--px-8); margin: var(--px-4) 0 var(--px-24); }
   /* diptych image corners follow the panel on mobile (panel 30px − 20px padding ≈ 20px) */
   .diptych .diptych__media img { border-radius: var(--radius-md); }
@@ -642,11 +649,11 @@
   height: 100%;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.85;
+  opacity: 0.95;
 }
 
 @media (max-width: 767px) {
-  .site-footer { padding: var(--px-48) 0 var(--px-96); }
+  .site-footer { padding: var(--px-48) 0 var(--px-120); } /* room for the bottom clouds */
   .footer__logo { width: 240px; margin-bottom: var(--px-16); }
   .footer__links { gap: var(--px-12) var(--px-20); }
   .footer__legal { gap: var(--px-8) var(--px-20); }

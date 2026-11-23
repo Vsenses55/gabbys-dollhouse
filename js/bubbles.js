@@ -78,13 +78,19 @@ async function init(host) {
         uniform float uTime;`)
       .replace('#include <opaque_fragment>', `#include <opaque_fragment>
         vec3 n = normalize(normal);
-        float fres = pow(1.0 - abs(dot(n, normalize(vViewPosition))), 2.6);
-        // thin-film rainbow along the rim (what makes it read as soap)
-        vec3 film = 0.5 + 0.5 * cos(6.2831 * (fres * 1.4 + vec3(0.0, 0.33, 0.67)) + uTime * 0.6);
-        // small window highlight, upper left
-        float spec = pow(max(dot(n, normalize(vec3(-0.45, 0.55, 0.7))), 0.0), 48.0);
-        gl_FragColor.rgb = mix(gl_FragColor.rgb, film, 0.8 * fres) * 0.85 + spec * 0.6; // tinted rim, less white
-        gl_FragColor.a = clamp(fres * 0.75 + spec * 0.7, 0.0, 1.0);`);
+        float fres = pow(1.0 - abs(dot(n, normalize(vViewPosition))), 2.4);
+        // soap-film colours like the reference: pink/violet on the lower-left rim,
+        // cyan/teal on the upper-right rim, a thin white edge, clear centre
+        float side = clamp(dot(n.xy, normalize(vec2(-0.7, -0.7))) * 0.5 + 0.5, 0.0, 1.0);
+        vec3 pink = vec3(0.95, 0.45, 0.85);
+        vec3 violet = vec3(0.62, 0.45, 0.98);
+        vec3 cyan = vec3(0.45, 0.92, 0.95);
+        vec3 film = mix(cyan, mix(violet, pink, smoothstep(0.6, 0.95, side)), smoothstep(0.35, 0.75, side));
+        film += 0.08 * sin(uTime * 0.8 + side * 6.0);
+        float edge = smoothstep(0.82, 1.0, fres);              // thin white outline
+        float spec = pow(max(dot(n, normalize(vec3(-0.45, 0.55, 0.7))), 0.0), 60.0);
+        gl_FragColor.rgb = mix(film, vec3(1.0), edge * 0.6) + spec;
+        gl_FragColor.a = clamp(fres * 0.85 + edge * 0.25 + spec * 0.9 + 0.04, 0.0, 1.0);`);
   };
 
   const geometry = new THREE.SphereGeometry(1, 48, 48);

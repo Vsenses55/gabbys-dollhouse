@@ -266,6 +266,26 @@
     document.fonts?.ready.then(lockHeight);
     window.addEventListener('resize', lockHeight);
 
+    // ---- Auto-cycle: next character every 5s. Pauses while hovered, focused, dragged,
+    // off-screen or when the tab is hidden; a manual change restarts the timer. ----
+    const AUTO_MS = 5000;
+    let autoTimer = 0, inView = false, hovering = false, focused = false;
+    const canAuto = () => inView && !hovering && !focused && !dragging && !document.hidden && !reduce.matches;
+    const schedule = () => {
+      clearTimeout(autoTimer);
+      if (canAuto()) autoTimer = setTimeout(() => { if (canAuto() && !busy) step(1); schedule(); }, AUTO_MS);
+    };
+    new IntersectionObserver(([e]) => { inView = e.isIntersecting; schedule(); }, { threshold: 0.4 }).observe(stage);
+    [stage, section.querySelector('[data-cast]')].forEach((el) => {
+      el.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') { hovering = true; schedule(); } });
+      el.addEventListener('pointerleave', () => { hovering = false; schedule(); });
+    });
+    section.addEventListener('focusin', () => { focused = true; schedule(); });
+    section.addEventListener('focusout', () => { focused = false; schedule(); });
+    section.addEventListener('click', schedule);
+    stage.addEventListener('pointerup', schedule);
+    document.addEventListener('visibilitychange', schedule);
+
     renderCast();
   }
 })();
