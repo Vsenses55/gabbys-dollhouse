@@ -22,6 +22,22 @@
   const header = document.getElementById('site-header');
   const toggle = header.querySelector('.nav__toggle');
 
+  // Menu hover sounds (js/sound.js): each top-level item plays its own note,
+  // dropdown items a softer, higher blip. Mouse only — not on touch.
+  if (window.gdSound) {
+    const { bloop, SCALE } = window.gdSound;
+    header.querySelectorAll('.menu-bar > li > .nav-link').forEach((link, i) => {
+      link.addEventListener('pointerenter', (e) => {
+        if (e.pointerType === 'mouse') bloop(SCALE[i % SCALE.length], { slide: 1.5, dur: 0.18 });
+      });
+    });
+    header.querySelectorAll('.dropdown a').forEach((a, i) => {
+      a.addEventListener('pointerenter', (e) => {
+        if (e.pointerType === 'mouse') bloop(SCALE[(i + 2) % SCALE.length] * 2, { slide: 1.2, dur: 0.08, gain: 0.25 });
+      });
+    });
+  }
+
   // Mobile menu toggle
   toggle.addEventListener('click', () => {
     const open = toggle.getAttribute('aria-expanded') === 'true';

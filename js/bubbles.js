@@ -113,6 +113,7 @@ async function init(host) {
     b.phase = rand(0, Math.PI * 2);
     b.popAt = rand(viewH * 0.15, viewH * 0.48); // pops somewhere in the upper half
     b.age = initial ? 1 : 0;
+    b.popping = -1; // ≥ 0 while a click-pop is playing
   }
 
   for (let i = 0; i < count; i++) {
@@ -150,8 +151,14 @@ async function init(host) {
       const sway = Math.sin(uniforms.uTime.value * b.drift + b.phase) * 0.35;
       // grow in at spawn, pop (quick shrink) near the top
       const grow = Math.min(b.age / 0.8, 1);
-      const pop = b.y > b.popAt ? Math.max(1 - (b.y - b.popAt) * 4, 0) : 1;
-      const s = b.size * grow * (pop < 1 ? pop * 1.1 : 1);
+      let pop = b.y > b.popAt ? Math.max(1 - (b.y - b.popAt) * 4, 0) : 1;
+      if (b.popping >= 0) {
+        // clicked: quick swell then vanish (~0.2s)
+        b.popping += dt;
+        const k = b.popping / 0.2;
+        pop = k < 0.35 ? 1 + k * 0.7 : Math.max(1.25 * (1 - (k - 0.35) / 0.65), 0);
+      }
+      const s = b.size * grow * (pop < 1 ? pop * 1.1 : pop);
       b.mesh.position.set(b.x + sway, b.y, 0);
       b.mesh.scale.setScalar(Math.max(s, 0.0001));
       b.mesh.rotation.y += dt * 0.2;
@@ -159,6 +166,37 @@ async function init(host) {
     }
     renderer.render(scene, camera);
   }
+
+  // ---- Click / tap a bubble to pop it ----
+  const v = new THREE.Vector3();
+  const hitTest = (e) => {
+    const r = canvas.getBoundingClientRect();
+    const px = e.clientX - r.left, py = e.clientY - r.top;
+    const toPx = 1 / pxToWorld();
+    let best = null, bestD = Infinity;
+    for (const b of bubbles) {
+      if (b.popping >= 0 || b.mesh.scale.x < b.size * 0.5) continue;
+      v.copy(b.mesh.position).project(camera);
+      const sx = (v.x + 1) / 2 * r.width, sy = (1 - v.y) / 2 * r.height;
+      const d = Math.hypot(px - sx, py - sy);
+      const radius = b.mesh.scale.x * toPx + 10; // a little forgiving for small bubbles / fingers
+      if (d < radius && d < bestD) { best = b; bestD = d; }
+    }
+    return best;
+  };
+  const ignore = (e) => e.target.closest('a, button, input, [data-feature]');
+  host.addEventListener('pointerdown', (e) => {
+    if (ignore(e)) return;
+    const b = hitTest(e);
+    if (!b) return;
+    b.popping = 0;
+    window.gdSound?.pop();
+  });
+  // pointer cursor over a bubble (mouse only)
+  host.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'mouse') return;
+    host.style.cursor = !ignore(e) && hitTest(e) ? 'pointer' : '';
+  });
 
   return {
     play() { if (!raf) { clock.start(); frame(); } },
