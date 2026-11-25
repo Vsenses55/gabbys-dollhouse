@@ -38,6 +38,12 @@
     });
   }
 
+  // Hanging mobile: sway gently on hover, always finishing back at rest (no snap)
+  document.querySelectorAll('[data-sway]').forEach((el) => {
+    el.addEventListener('pointerenter', () => el.classList.add('is-swaying'));
+    el.addEventListener('animationend', () => el.classList.remove('is-swaying'));
+  });
+
   // Mobile menu toggle
   toggle.addEventListener('click', () => {
     const open = toggle.getAttribute('aria-expanded') === 'true';

@@ -53,6 +53,23 @@
 }
 .art__item[style*="--c"] { left: calc(50% + var(--c)); }
 .art__item--bottom { top: auto; bottom: var(--b, 0); }
+
+/* Hanging mobile (Video section): its string starts at the bottom edge of the Events
+   panel above (video section's 107px top padding). Hovering sets it swaying gently
+   from that anchor point; js/main.js adds .is-swaying and removes it when done. */
+.art__item[data-sway] {
+  pointer-events: auto;
+  transform-origin: 56% 0;      /* the string's x position in the artwork, at the top */
+}
+.art__item[data-sway].is-swaying { animation: sway 3.6s ease-in-out 2; }
+@keyframes sway {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(1.6deg); }
+  75% { transform: rotate(-1.6deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .art__item[data-sway].is-swaying { animation: none; }
+}
 .art__item[data-only="mobile"] { display: none; }
 @media (max-width: 767px) { .art .art__item[data-only="mobile"] { display: block; width: var(--w); } } /* already mobile-sized: no 50% scale */
 
