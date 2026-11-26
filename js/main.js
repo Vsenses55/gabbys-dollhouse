@@ -44,6 +44,12 @@
     el.addEventListener('animationend', () => el.classList.remove('is-swaying'));
   });
 
+  // Placeholder menu links (href="#") go nowhere for now — stop them jumping to the
+  // top of the page. Give a link a real URL later and it works normally.
+  header.addEventListener('click', (e) => {
+    if (e.target.closest('a[href="#"]')) e.preventDefault();
+  });
+
   // Mobile menu toggle
   toggle.addEventListener('click', () => {
     const open = toggle.getAttribute('aria-expanded') === 'true';
