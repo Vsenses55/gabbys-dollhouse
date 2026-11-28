@@ -526,14 +526,54 @@
   width: 480px;
   max-width: 100%;
 }
+/* Animated swirl behind the featured character.
+   Three layers so the arms can spin while the glow + fade stay put:
+   .characters__rays::before  static cream glow (between the stripes)
+   .characters__swirl-mask    static elliptical fade (mask)
+   .characters__swirl         the stripes (assets/img/swirl.svg), rotating
+   Tune with --swirl-speed (one full turn) and --swirl-dir (1 = flows outward, -1 = inward). */
 .characters__rays {
+  --swirl-speed: 60s;
+  --swirl-dir: 1;
   position: absolute;
   top: 0;
   left: 50%;
   width: 878px;
   max-width: none;
+  aspect-ratio: 16 / 9;
   transform: translateX(calc(-50% - 10px));
   pointer-events: none;
+}
+.characters__rays::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 47% 42% at 50% 50%,
+    rgb(245 253 195 / .75) 0%, rgb(245 253 195 / .53) 22%, rgb(245 253 195 / .24) 33%,
+    rgb(245 253 195 / .03) 50%, rgb(245 253 195 / 0) 60%);
+}
+.characters__swirl-mask {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: var(--swirl-fade);
+          mask-image: var(--swirl-fade);
+  --swirl-fade: radial-gradient(ellipse 47% 42% at 50% 50%,
+    #000 0%, rgb(0 0 0 / .92) 20%, rgb(0 0 0 / .72) 35%, rgb(0 0 0 / .48) 50%,
+    rgb(0 0 0 / .27) 65%, rgb(0 0 0 / .1) 80%, transparent 92%);
+}
+.characters__swirl {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 114.6%;            /* square that still covers the box corners while rotating */
+  aspect-ratio: 1;
+  background: url("../assets/img/swirl.svg") center / contain no-repeat;
+  transform: translate(-50%, -50%);
+  animation: swirl-spin var(--swirl-speed) linear infinite;
+  will-change: transform;
+}
+@keyframes swirl-spin {
+  to { transform: translate(-50%, -50%) rotate(calc(-360deg * var(--swirl-dir))); }
 }
 .characters__hero-img {
   position: relative; z-index: 2; width: 100%; height: auto; aspect-ratio: 1; object-fit: contain;

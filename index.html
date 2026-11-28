@@ -263,7 +263,9 @@
           <!-- Character carousel: data lives in js/main.js (CHARACTERS). This markup is the
                no-JS first render and gets rebuilt from that list. -->
           <div class="characters__feature" data-feature aria-live="polite">
-            <img class="characters__rays" src="assets/img/rays.png" alt="" aria-hidden="true">
+            <div class="characters__rays" aria-hidden="true">
+              <div class="characters__swirl-mask"><div class="characters__swirl"></div></div>
+            </div>
             <img class="characters__hero-img" data-feature-img src="assets/img/characters/cakey-cake.webp" width="480" height="480" loading="lazy" alt="Cakey Cat, a smiling kitty cupcake with rainbow sprinkles">
           </div>
 
